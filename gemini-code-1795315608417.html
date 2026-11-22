@@ -1,0 +1,2151 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>हजेरी बुक, उत्पादन व पगार व्यवस्थापन</title>
+  <style>
+    :root {
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #cbd5e1;
+      --primary: #0284c7;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --dark: #1e293b;
+      --soft: #f8fafc;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 14px;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .app-box {
+      max-width: 1480px;
+      margin: 0 auto;
+      background: var(--card);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    }
+    h1, h2, h3 { margin-top: 0; }
+    label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 4px; color: #334155; }
+    select, input {
+      width: 100%;
+      padding: 7px 9px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      background: #fff;
+    }
+    .mini-input {
+      width: 82px;
+      padding: 4px 6px;
+      font-size: 12px;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+    }
+    .role-pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #dcfce7;
+      color: #15803d;
+    }
+    .sync-status {
+      font-size: 12px;
+      font-weight: 700;
+      color: #0369a1;
+      background: #e0f2fe;
+      padding: 5px 10px;
+      border-radius: 8px;
+    }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 10px;
+    }
+    .tab-btn {
+      background: #e2e8f0;
+      color: #0f172a;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .tab-btn.active { background: var(--primary); color: #fff; }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(205px, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .card-box {
+      background: var(--soft);
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 14px;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1120px;
+      font-size: 12.5px;
+    }
+    th, td {
+      padding: 6px 8px;
+      border: 1px solid #e2e8f0;
+      text-align: left;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+    th { background: #f8fafc; color: #334155; font-weight: 700; }
+    .prod-list { display: flex; flex-direction: column; gap: 5px; min-width: 260px; }
+    .prod-item {
+      display: grid;
+      grid-template-columns: 1.5fr 0.75fr auto;
+      gap: 5px;
+      align-items: center;
+    }
+    .btn {
+      border: none;
+      border-radius: 8px;
+      padding: 9px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-sm { padding: 4px 8px; font-size: 11px; border-radius: 6px; }
+    .btn-blue { background: var(--primary); color: #fff; }
+    .btn-green { background: var(--success); color: #fff; }
+    .btn-dark { background: var(--dark); color: #fff; }
+    .btn-red { background: var(--danger); color: #fff; }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 14px; }
+    .summary-strip {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      padding: 12px 14px;
+      border-radius: 10px;
+      margin-top: 14px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .msg { margin-top: 10px; font-size: 13px; font-weight: 700; }
+    .err { color: var(--danger); }
+    .ok { color: var(--success); }
+    .hidden { display: none; }
+    .muted { color: var(--muted); font-size: 12px; }
+  </style>
+</head>
+<body>
+
+  <div class="app-box" id="appView">
+    <div class="topbar">
+      <div>
+        <h1 style="margin-bottom:4px;">हजेरी बुक (Register), उत्पादन व संपूर्ण पगार Excel</h1>
+        <span class="role-pill">Direct Entry + Trial Sync (Google Sheet Ready)</span>
+      </div>
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+        <span id="syncStatusText" class="sync-status">Sync सुरू करत आहे...</span>
+        <button type="button" class="btn btn-blue" onclick="pullCloudState(true)">🔄 ताजा डेटा आणा</button>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button type="button" class="tab-btn active" id="tabBtnEntry" onclick="switchTab('entry')">१. दैनंदिन नोंद</button>
+      <button type="button" class="tab-btn" id="tabBtnHajeriBook" onclick="switchTab('hajeriBook')">२. हजेरी बुक (Register View)</button>
+      <button type="button" class="tab-btn" id="tabBtnPayroll" onclick="switchTab('payroll')">३. पगार व पूर्ण Excel (PF/ESIC/PT/Ded)</button>
+      <button type="button" class="tab-btn" id="tabBtnSpecialDed" onclick="switchTab('specialDed')">४. Special Deduction (१/२/३/४)</button>
+      <button type="button" class="tab-btn" id="tabBtnRoster" onclick="switchTab('roster')">५. सुपरवायझर व कामगार यादी</button>
+      <button type="button" class="tab-btn" id="tabBtnKyc" onclick="switchTab('kyc')">६. कामगार KYC व PF/ESIC/PT</button>
+      <button type="button" class="tab-btn" id="tabBtnProducts" onclick="switchTab('products')">७. प्रॉडक्ट व दर (पैसे)</button>
+      <button type="button" class="tab-btn" id="tabBtnIncrement" onclick="switchTab('increment')">८. ४ महिन्यांची वाढ / १२-तास दर</button>
+    </div>
+
+    <!-- TAB 1: DAILY ENTRY -->
+    <div id="tabEntry">
+      <div class="grid-3">
+        <div>
+          <label for="entryDate">तारीख निवडा</label>
+          <input type="date" id="entryDate" onchange="renderEntrySheet()" />
+        </div>
+        <div>
+          <label for="entryCompany">कंपनी निवडा</label>
+          <select id="entryCompany" onchange="onEntryCompanyChange()"></select>
+        </div>
+        <div>
+          <label for="entrySupervisor">सुपरवायझर निवडा</label>
+          <select id="entrySupervisor" onchange="renderEntrySheet()"></select>
+        </div>
+      </div>
+
+      <div class="card-box">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong>नियम माहिती:</strong> <span id="companyRuleText" class="muted"></span>
+          </div>
+          <div id="pendingCountInfo" style="font-weight:700; font-size:13px;"></div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>व्यक्ती (कामगार + सुपरवायझर)</th>
+              <th id="thHours">Daily तास (१२ तास = १ हजेरी)</th>
+              <th id="thOt" class="ot-col">OT तास</th>
+              <th id="thProd" class="prod-col">प्रॉडक्ट्स व क्वांटिटी (Proqnt)</th>
+              <th>१२-तास हजेरी रक्कम (₹)</th>
+            </tr>
+          </thead>
+          <tbody id="entryRows"></tbody>
+        </table>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn btn-green" onclick="saveDailyEntries()">💾 नोंद सेव्ह करा</button>
+        <button type="button" class="btn btn-red" onclick="clearDateCompanyEntries()">🗑️ या तारखेची व कंपनीची नोंद रीसेट करा</button>
+      </div>
+      <div class="msg" id="entryMsg"></div>
+    </div>
+
+    <!-- TAB 2: HAJERI BOOK (REGISTER VIEW) -->
+    <div id="tabHajeriBook" class="hidden">
+      <div class="grid-3">
+        <div>
+          <label for="hbCompany">कंपनी निवडा</label>
+          <select id="hbCompany" onchange="renderHajeriBook()"></select>
+        </div>
+        <div>
+          <label for="hbMonth">महिना निवडा (YYYY-MM)</label>
+          <input type="month" id="hbMonth" onchange="renderHajeriBook()" />
+        </div>
+        <div>
+          <label for="hbMode">तारीख रेंज / मोड</label>
+          <select id="hbMode" onchange="renderHajeriBook()">
+            <option value="all_days">महिन्यातील सर्व तारखा (1 ते 31)</option>
+            <option value="sample_26_28">AEL नमुना (26, 27, 28)</option>
+            <option value="sample_1_4">Som/Pawana नमुना (1, 2, 3, 4)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="card-box">
+        <strong id="hbRuleTitle">हजेरी बुक नमुना:</strong>
+        <span id="hbRuleDesc" class="muted"></span>
+      </div>
+
+      <div class="table-wrap">
+        <table id="hajeriBookTable">
+          <thead id="hbThead"></thead>
+          <tbody id="hbTbody"></tbody>
+        </table>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn btn-dark" onclick="exportHajeriBookCSV()">📥 हजेरी बुक Excel (CSV) डाउनलोड करा</button>
+      </div>
+    </div>
+
+    <!-- TAB 3: PAYROLL & FULL EXCEL (PF / ESIC / PT / DED 1-4) -->
+    <div id="tabPayroll" class="hidden">
+      <div class="grid-3">
+        <div>
+          <label for="payCompany">कंपनी निवडा</label>
+          <select id="payCompany" onchange="renderPayroll()"></select>
+        </div>
+        <div>
+          <label for="payMonth">महिना निवडा (YYYY-MM)</label>
+          <input type="month" id="payMonth" onchange="renderPayroll()" />
+        </div>
+      </div>
+
+      <div class="card-box">
+        <strong>PF, ESIC व PT कमी / बंद करण्याची सोपी पद्धत:</strong>
+        <span class="muted">
+          कोणत्याही व्यक्तीचा <code>PF %</code> किंवा <code>ESIC %</code> कमी करायचा असल्यास कमी आकडा टाका, आणि कापायचा नसेल तर <code>0</code> टाका. तसेच <code>PT (₹)</code> बॉक्समध्ये रक्कम बदला किंवा <code>0</code> टाका — हिशोब लगेच अपडेट होईल!
+        </span>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Naav</th>
+              <th>12h दर (₹)</th>
+              <th>Total Days/Hrs</th>
+              <th>OT</th>
+              <th>Gross</th>
+              <th>Basic</th>
+              <th>PF %</th>
+              <th>PF (₹)</th>
+              <th>ESIC %</th>
+              <th>ESIC (₹)</th>
+              <th>PT (₹)</th>
+              <th>Ded 1</th>
+              <th>Ded 2</th>
+              <th>Ded 3</th>
+              <th>Ded 4</th>
+              <th>Total Deduction</th>
+              <th>Net Pay</th>
+            </tr>
+          </thead>
+          <tbody id="payrollRows"></tbody>
+        </table>
+      </div>
+
+      <div class="summary-strip" id="payrollTotals"></div>
+      <div class="actions">
+        <button type="button" class="btn btn-blue" onclick="downloadManualHajeriExcel()">📄 Manual Hajeri Excel Template घ्या</button>
+        <label class="btn btn-green" style="margin:0; cursor:pointer;">
+          📤 Manual Hajeri Excel (CSV) Upload करा
+          <input type="file" id="importHajeriFile" accept=".csv" style="display:none;" onchange="handleImportHajeriCSV(event)" />
+        </label>
+        <button type="button" class="btn btn-dark" onclick="exportPayrollCSV()">📥 संपूर्ण पगार पत्रक Excel (CSV)</button>
+      </div>
+      <div class="msg" id="payrollMsg"></div>
+    </div>
+
+    <!-- TAB 4: SPECIAL DEDUCTION (4 TYPES: 1 / 2 / 3 / 4) -->
+    <div id="tabSpecialDed" class="hidden">
+      <div class="card-box">
+        <h3>Special Deduction नोंद (४ प्रकार: Ded 1, Ded 2, Ded 3, Ded 4 — तारखेसह)</h3>
+        <div class="grid-4">
+          <div>
+            <label for="sdDate">तारीख</label>
+            <input type="date" id="sdDate" onchange="renderSpecialDeductions()" />
+          </div>
+          <div>
+            <label for="sdCompany">कंपनी</label>
+            <select id="sdCompany" onchange="onSdCompanyChange()"></select>
+          </div>
+          <div>
+            <label for="sdPerson">व्यक्ती</label>
+            <select id="sdPerson"></select>
+          </div>
+          <div>
+            <label for="sdSlot">Deduction Slot (1 / 2 / 3 / 4)</label>
+            <select id="sdSlot">
+              <option value="Ded 1">Ded 1 (भाजीपाला / Advance 1)</option>
+              <option value="Ded 2">Ded 2 (रूम भाडे / Advance 2)</option>
+              <option value="Ded 3">Ded 3 (कपडे / Canteen)</option>
+              <option value="Ded 4">Ded 4 (बूट / Other)</option>
+            </select>
+          </div>
+          <div>
+            <label for="sdAmount">रक्कम (₹)</label>
+            <input type="number" id="sdAmount" step="0.01" min="0" placeholder="उदा. 250" />
+          </div>
+          <div>
+            <label for="sdNote">शेरा / तपशील</label>
+            <input type="text" id="sdNote" placeholder="उदा. भाजीपाला / रूम" />
+          </div>
+          <div style="display:flex; align-items:flex-end;">
+            <button type="button" class="btn btn-green" onclick="addSpecialDeduction()">+ कपात नोंद सेव्ह करा</button>
+          </div>
+        </div>
+        <div class="msg" id="sdMsg"></div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>तारीख</th>
+              <th>कंपनी</th>
+              <th>व्यक्ती</th>
+              <th>Slot (1/2/3/4)</th>
+              <th>रक्कम (₹)</th>
+              <th>शेरा</th>
+              <th>काढा</th>
+            </tr>
+          </thead>
+          <tbody id="sdTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 5: ROSTER -->
+    <div id="tabRoster" class="hidden">
+      <div class="card-box">
+        <h3>नवीन सुपरवायझर जोडा</h3>
+        <div class="grid-4">
+          <div>
+            <label for="newSupCompany">कंपनी</label>
+            <select id="newSupCompany"></select>
+          </div>
+          <div>
+            <label for="newSupName">सुपरवायझरचे नाव</label>
+            <input type="text" id="newSupName" placeholder="उदा. श्री. जाधव" />
+          </div>
+          <div>
+            <label for="newSupGender">लिंग</label>
+            <select id="newSupGender">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+          <div>
+            <label for="newSupHajeriRate">१२-तास हजेरी दर (₹)</label>
+            <input type="number" id="newSupHajeriRate" value="822" step="1" min="0" />
+          </div>
+        </div>
+        <button type="button" class="btn btn-blue" onclick="addSupervisor()">सुपरवायझर जोडा</button>
+        <div id="supListView" class="muted" style="margin-top:10px;"></div>
+      </div>
+
+      <div class="card-box">
+        <h3>नवीन कामगार जोडा</h3>
+        <div class="grid-4">
+          <div>
+            <label for="newWorkCompany">कंपनी</label>
+            <select id="newWorkCompany"></select>
+          </div>
+          <div>
+            <label for="newWorkName">कामगाराचे नाव</label>
+            <input type="text" id="newWorkName" placeholder="उदा. अनिल कदम" />
+          </div>
+          <div>
+            <label for="newWorkGender">लिंग</label>
+            <select id="newWorkGender">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+          <div>
+            <label for="newWorkRate">१२ तास हजेरी दर (₹)</label>
+            <input type="number" id="newWorkRate" value="822" step="1" />
+          </div>
+        </div>
+        <button type="button" class="btn btn-green" onclick="addWorker()">कामगार जोडा</button>
+        <div class="msg" id="rosterMsg"></div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>कंपनी</th>
+              <th>नाव</th>
+              <th>लिंग</th>
+              <th>१२-तास हजेरी दर (₹)</th>
+              <th>काढा</th>
+            </tr>
+          </thead>
+          <tbody id="rosterTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 6: KYC & STATUTORY -->
+    <div id="tabKyc" class="hidden">
+      <div class="card-box">
+        <h3>कामगार प्रोफाइल / KYC व PF, ESIC, PT सेटिंग</h3>
+        <div class="grid-4">
+          <div>
+            <label for="kycPersonSelect">व्यक्ती निवडा</label>
+            <select id="kycPersonSelect" onchange="loadKycForm()"></select>
+          </div>
+          <div>
+            <label for="kycBank">बँक खाते क्रमांक</label>
+            <input type="text" id="kycBank" />
+          </div>
+          <div>
+            <label for="kycIfsc">IFSC कोड</label>
+            <input type="text" id="kycIfsc" />
+          </div>
+          <div>
+            <label for="kycAadhaar">आधार क्रमांक</label>
+            <input type="text" id="kycAadhaar" />
+          </div>
+          <div>
+            <label for="kycPan">PAN क्रमांक</label>
+            <input type="text" id="kycPan" />
+          </div>
+          <div>
+            <label for="kycUan">UAN क्रमांक</label>
+            <input type="text" id="kycUan" />
+          </div>
+          <div>
+            <label for="kycBasicRatio">Basic पगार टक्केवारी (%)</label>
+            <input type="number" id="kycBasicRatio" value="60" min="1" max="100" />
+          </div>
+          <div>
+            <label for="kycPfPct">PF (%) — कमी टाका किंवा 0 टाका</label>
+            <input type="number" id="kycPfPct" value="12" min="0" step="0.1" />
+          </div>
+          <div>
+            <label for="kycEsicPct">ESIC (%) — कमी टाका किंवा 0 टाका</label>
+            <input type="number" id="kycEsicPct" value="0.75" min="0" step="0.05" />
+          </div>
+          <div>
+            <label for="kycPt">PT रक्कम (₹) — 0 किंवा हवी ती रक्कम</label>
+            <input type="number" id="kycPt" value="200" min="0" step="1" />
+          </div>
+        </div>
+        <button type="button" class="btn btn-blue" onclick="saveKycProfile()">KYC व PF/ESIC/PT सेव्ह करा</button>
+        <div class="msg" id="kycMsg"></div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>कंपनी</th>
+              <th>नाव</th>
+              <th>लिंग</th>
+              <th>PF %</th>
+              <th>ESIC %</th>
+              <th>PT (₹)</th>
+              <th>Bank A/C</th>
+              <th>Aadhaar</th>
+              <th>PAN</th>
+              <th>UAN</th>
+            </tr>
+          </thead>
+          <tbody id="kycTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 7: PRODUCTS -->
+    <div id="tabProducts" class="hidden">
+      <div class="card-box">
+        <h3>प्रॉडक्ट व दर व्यवस्थापन (दर पैशांमध्ये / Paise)</h3>
+        <div class="grid-4">
+          <div>
+            <label for="prodCompany">कंपनी</label>
+            <select id="prodCompany" onchange="renderProductsTable()">
+              <option value="Som Auto">Som Auto</option>
+              <option value="Pawana">Pawana</option>
+              <option value="AEL">AEL</option>
+              <option value="Endurance L20">Endurance L20</option>
+              <option value="Endorance 226">Endorance 226</option>
+              <option value="Suvarna">Suvarna</option>
+            </select>
+          </div>
+          <div>
+            <label for="prodName">प्रॉडक्टचे नाव</label>
+            <input type="text" id="prodName" />
+          </div>
+          <div>
+            <label for="prodPaise">दर (पैशांमध्ये)</label>
+            <input type="number" id="prodPaise" step="1" />
+          </div>
+          <div style="display:flex; align-items:flex-end;">
+            <button type="button" class="btn btn-green" onclick="addProduct()">प्रॉडक्ट जोडा</button>
+          </div>
+        </div>
+        <div class="msg" id="prodMsg"></div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>कंपनी</th>
+              <th>प्रॉडक्ट नाव</th>
+              <th>दर (पैसे)</th>
+              <th>रुपये (₹)</th>
+              <th>स्थिती</th>
+              <th>बदल / बंद करा</th>
+            </tr>
+          </thead>
+          <tbody id="prodTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 8: 4-MONTH INCREMENT -->
+    <div id="tabIncrement" class="hidden">
+      <div class="card-box">
+        <h3>४ महिन्यांचा आढावा व १२-तास हजेरी दर वाढ / एडिट</h3>
+        <div class="grid-4">
+          <div>
+            <label for="incPerson">व्यक्ती निवडा</label>
+            <select id="incPerson" onchange="loadIncrementForm()"></select>
+          </div>
+          <div>
+            <label for="incNewRate">नवीन १२-तास हजेरी दर (₹)</label>
+            <input type="number" id="incNewRate" step="1" />
+          </div>
+          <div>
+            <label for="incDate">वाढीची तारीख</label>
+            <input type="date" id="incDate" />
+          </div>
+          <div style="display:flex; align-items:flex-end;">
+            <button type="button" class="btn btn-blue" onclick="applyIncrement()">दर अपडेट करा (+4 महिने)</button>
+          </div>
+        </div>
+        <div class="msg" id="incMsg"></div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>कंपनी</th>
+              <th>नाव</th>
+              <th>सध्याचा १२-तास दर (₹)</th>
+              <th>मागील वाढ तारीख</th>
+              <th>पुढची ४ महिन्यांची तारीख</th>
+            </tr>
+          </thead>
+          <tbody id="incTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // भविष्यात Google Sheet जोडायची असल्यास खाली Apps Script ची Web App URL टाका:
+    // उदाहरण: "https://script.google.com/macros/s/AKfycbx.../exec"
+    const SCRIPT_URL = "";
+
+    // सध्या ट्रायलसाठी Live Cloud endpoint:
+    const TRIAL_CLOUD_API = "https://kvdb.io/hajeri_payroll_live_2026_ind/main_company_state_v1";
+
+    const COMPANIES = ["Som Auto", "AEL", "Endurance L20", "Endorance 226", "Pawana", "Suvarna"];
+    const PIECE_COMPANIES = ["Som Auto", "Pawana"];
+    const OT_COMPANIES = ["Endurance L20", "Endorance 226", "Suvarna"];
+    const SHIFT_HOURS = 12;
+
+    function todayISO() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function addMonthsISO(dateStr, months) {
+      const d = new Date(dateStr + "T00:00:00");
+      d.setMonth(d.getMonth() + months);
+      return d.toISOString().slice(0, 10);
+    }
+
+    function defaultState() {
+      const startDate = todayISO();
+      const people = [];
+      const supervisorsByCompany = {};
+
+      COMPANIES.forEach((comp, cIdx) => {
+        supervisorsByCompany[comp] = [
+          `${comp} Supervisor 1`,
+          `${comp} Supervisor 2`,
+          `${comp} Supervisor 3`
+        ];
+        for (let i = 1; i <= 5; i++) {
+          const gender = i % 4 === 0 ? "Female" : "Male";
+          people.push({
+            id: `${comp}_W${i}_${cIdx}`,
+            company: comp,
+            name: `${comp} Worker ${i}`,
+            gender,
+            shift12Rate: 822,
+            lastIncrementDate: startDate,
+            nextReviewDate: addMonthsISO(startDate, 4),
+            bank: "",
+            ifsc: "",
+            aadhaar: "",
+            pan: "",
+            uan: "",
+            basicRatio: 60,
+            pfPct: 12,
+            esicPct: 0.75,
+            ptAmount: gender === "Male" ? 200 : 0
+          });
+        }
+      });
+
+      const products = [];
+      for (let i = 1; i <= 18; i++) {
+        products.push({ id: `SA_P${i}`, company: "Som Auto", name: `Som Prod ${i}`, paise: 120 + i * 15, active: true });
+      }
+      for (let i = 1; i <= 8; i++) {
+        products.push({ id: `PW_P${i}`, company: "Pawana", name: `Pawana Prod ${i}`, paise: 140 + i * 20, active: true });
+      }
+
+      return {
+        updatedAt: Date.now(),
+        supervisorsByCompany,
+        people,
+        products,
+        entries: [],
+        specialDeductions: [],
+        monthlyRateOverrides: {}
+      };
+    }
+
+    let state = defaultState();
+    let isSavingCloud = false;
+
+    function setSyncStatus(text) {
+      const el = document.getElementById("syncStatusText");
+      if (el) el.textContent = text;
+    }
+
+    function loadSavedState() {
+      try {
+        const raw = localStorage.getItem("payroll_app_state_v16");
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === "object") {
+            state = { ...defaultState(), ...parsed };
+            if (!state.monthlyRateOverrides) state.monthlyRateOverrides = {};
+          }
+        }
+      } catch (e) {
+        state = defaultState();
+      }
+    }
+
+    function getActiveTabName() {
+      const activeBtn = document.querySelector(".tab-btn.active");
+      if (!activeBtn) return "entry";
+      const map = {
+        tabBtnEntry: "entry",
+        tabBtnHajeriBook: "hajeriBook",
+        tabBtnPayroll: "payroll",
+        tabBtnSpecialDed: "specialDed",
+        tabBtnRoster: "roster",
+        tabBtnKyc: "kyc",
+        tabBtnProducts: "products",
+        tabBtnIncrement: "increment"
+      };
+      return map[activeBtn.id] || "entry";
+    }
+
+    function refreshCurrentViewOnly() {
+      const curTab = getActiveTabName();
+      const prevComp = document.getElementById("entryCompany")?.value;
+      const prevSup = document.getElementById("entrySupervisor")?.value;
+      const prevDate = document.getElementById("entryDate")?.value;
+      const prevHbComp = document.getElementById("hbCompany")?.value;
+      const prevPayComp = document.getElementById("payCompany")?.value;
+
+      populateCompanySelects();
+      if (prevComp) document.getElementById("entryCompany").value = prevComp;
+      const supSel = document.getElementById("entrySupervisor");
+      const activeComp = document.getElementById("entryCompany").value;
+      supSel.innerHTML = "";
+      (state.supervisorsByCompany[activeComp] || []).forEach(sup => {
+        const opt = document.createElement("option");
+        opt.value = sup;
+        opt.textContent = sup;
+        if (sup === prevSup) opt.selected = true;
+        supSel.appendChild(opt);
+      });
+      if (prevDate) document.getElementById("entryDate").value = prevDate;
+      if (prevHbComp) document.getElementById("hbCompany").value = prevHbComp;
+      if (prevPayComp) document.getElementById("payCompany").value = prevPayComp;
+
+      if (curTab === "entry") renderEntrySheet();
+      if (curTab === "hajeriBook") renderHajeriBook();
+      if (curTab === "payroll") renderPayroll();
+      if (curTab === "specialDed") renderSpecialDeductions();
+      if (curTab === "roster") renderRoster();
+      if (curTab === "kyc") renderKyc();
+      if (curTab === "products") renderProductsTable();
+      if (curTab === "increment") renderIncrement();
+    }
+
+    async function pushCloudState() {
+      state.updatedAt = Date.now();
+      isSavingCloud = true;
+      setSyncStatus("सेव्ह होत आहे...");
+
+      try {
+        if (SCRIPT_URL && SCRIPT_URL.trim().length > 0) {
+          await fetch(SCRIPT_URL.trim(), {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({ state })
+          });
+          setSyncStatus("Google Sheet Sync ✓");
+        } else {
+          const res = await fetch(TRIAL_CLOUD_API, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(state)
+          });
+          setSyncStatus(res.ok ? "Trial Live Sync ✓" : "Local Save ✓");
+        }
+      } catch (e) {
+        setSyncStatus("Local Save ✓");
+      } finally {
+        isSavingCloud = false;
+      }
+    }
+
+    async function pullCloudState(showAlert) {
+      if (isSavingCloud) return;
+      try {
+        if (SCRIPT_URL && SCRIPT_URL.trim().length > 0) {
+          const res = await fetch(`${SCRIPT_URL.trim()}?t=${Date.now()}`);
+          const data = await res.json();
+          if (data && data.ok && data.state && Array.isArray(data.state.people)) {
+            state = { ...defaultState(), ...data.state };
+            if (!state.monthlyRateOverrides) state.monthlyRateOverrides = {};
+            localStorage.setItem("payroll_app_state_v16", JSON.stringify(state));
+            refreshCurrentViewOnly();
+            setSyncStatus("Google Sheet Sync ✓");
+            if (showAlert) alert("Google Sheet मधील ताजा डेटा आला!");
+          }
+          return;
+        }
+
+        const res = await fetch(`${TRIAL_CLOUD_API}?_=${Date.now()}`, { cache: "no-store" });
+        if (res.status === 404) {
+          setSyncStatus("Trial Live Ready ✓");
+          if (showAlert) alert("ट्रायल क्लाउड तयार आहे. नोंद सेव्ह करा.");
+          return;
+        }
+        if (!res.ok) {
+          setSyncStatus("Trial Live Sync ✓");
+          return;
+        }
+        const remote = await res.json();
+        if (remote && typeof remote === "object" && Array.isArray(remote.people)) {
+          const remoteTime = Number(remote.updatedAt || 0);
+          const localTime = Number(state.updatedAt || 0);
+          if (showAlert || remoteTime > localTime || state.entries.length === 0) {
+            state = { ...defaultState(), ...remote };
+            if (!state.monthlyRateOverrides) state.monthlyRateOverrides = {};
+            localStorage.setItem("payroll_app_state_v16", JSON.stringify(state));
+            refreshCurrentViewOnly();
+          }
+          setSyncStatus("Trial Live Sync ✓");
+          if (showAlert) alert("ताजा डेटा अपडेट झाला!");
+        }
+      } catch (e) {
+        setSyncStatus("Local / Trial ✓");
+      }
+    }
+
+    function persistState() {
+      try {
+        localStorage.setItem("payroll_app_state_v16", JSON.stringify(state));
+      } catch (e) {}
+      pushCloudState();
+    }
+
+    function getEffectiveMonthShiftRate(comp, monthStr, personObj, personKey) {
+      const key = `${monthStr}__${comp}__${personKey || personObj.id}`;
+      const overrideVal = state.monthlyRateOverrides?.[key];
+      if (overrideVal !== undefined && overrideVal !== null && !isNaN(parseFloat(overrideVal))) {
+        return parseFloat(overrideVal);
+      }
+      return parseFloat(personObj.shift12Rate ?? 822) || 822;
+    }
+
+    function setEffectiveMonthShiftRate(comp, monthStr, personKey, newRate) {
+      if (!state.monthlyRateOverrides) state.monthlyRateOverrides = {};
+      const key = `${monthStr}__${comp}__${personKey}`;
+      const num = parseFloat(newRate);
+      if (isNaN(num) || num <= 0) {
+        delete state.monthlyRateOverrides[key];
+      } else {
+        state.monthlyRateOverrides[key] = num;
+      }
+      persistState();
+    }
+
+    function switchTab(tabName) {
+      ["entry", "hajeriBook", "payroll", "specialDed", "roster", "kyc", "products", "increment"].forEach(t => {
+        const el = document.getElementById("tab" + t.charAt(0).toUpperCase() + t.slice(1));
+        if (el) el.classList.toggle("hidden", t !== tabName);
+      });
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      const activeMap = {
+        entry: "tabBtnEntry",
+        hajeriBook: "tabBtnHajeriBook",
+        payroll: "tabBtnPayroll",
+        specialDed: "tabBtnSpecialDed",
+        roster: "tabBtnRoster",
+        kyc: "tabBtnKyc",
+        products: "tabBtnProducts",
+        increment: "tabBtnIncrement"
+      };
+      const activeBtn = document.getElementById(activeMap[tabName]);
+      if (activeBtn) activeBtn.classList.add("active");
+
+      if (tabName === "entry") renderEntrySheet();
+      if (tabName === "hajeriBook") renderHajeriBook();
+      if (tabName === "payroll") renderPayroll();
+      if (tabName === "specialDed") { onSdCompanyChange(); renderSpecialDeductions(); }
+      if (tabName === "roster") renderRoster();
+      if (tabName === "kyc") renderKyc();
+      if (tabName === "products") renderProductsTable();
+      if (tabName === "increment") renderIncrement();
+    }
+
+    function initAppUI() {
+      const nowISO = todayISO();
+      const nowMonth = nowISO.slice(0, 7);
+      document.getElementById("entryDate").value = nowISO;
+      document.getElementById("sdDate").value = nowISO;
+      document.getElementById("payMonth").value = nowMonth;
+      document.getElementById("hbMonth").value = nowMonth;
+      document.getElementById("incDate").value = nowISO;
+      populateCompanySelects();
+      onEntryCompanyChange();
+      onSdCompanyChange();
+      switchTab("entry");
+    }
+
+    function populateCompanySelects() {
+      ["entryCompany", "hbCompany", "payCompany", "sdCompany", "newSupCompany", "newWorkCompany"].forEach(id => {
+        const sel = document.getElementById(id);
+        if (!sel) return;
+        const prev = sel.value;
+        sel.innerHTML = "";
+        COMPANIES.forEach(c => {
+          const opt = document.createElement("option");
+          opt.value = c;
+          opt.textContent = c;
+          if (c === prev) opt.selected = true;
+          sel.appendChild(opt);
+        });
+      });
+    }
+
+    function onEntryCompanyChange() {
+      const comp = document.getElementById("entryCompany").value;
+      const supSel = document.getElementById("entrySupervisor");
+      supSel.innerHTML = "";
+      (state.supervisorsByCompany[comp] || []).forEach(sup => {
+        const opt = document.createElement("option");
+        opt.value = sup;
+        opt.textContent = sup;
+        supSel.appendChild(opt);
+      });
+      renderEntrySheet();
+    }
+
+    function getAllCompanyPeople(comp) {
+      const compWorkers = state.people.filter(p => p.company === comp && !p.id.startsWith(`${comp}_SUP_`));
+      const sups = state.supervisorsByCompany[comp] || [];
+      const list = compWorkers.map(w => ({
+        key: w.id,
+        name: `${w.name} (कामगार)`,
+        rawName: w.name,
+        gender: w.gender,
+        shift12Rate: w.shift12Rate ?? 822,
+        personObj: w
+      }));
+
+      sups.forEach(sName => {
+        const supId = `${comp}_SUP_${sName}`;
+        let existingProfile = state.people.find(p => p.id === supId);
+        if (!existingProfile) {
+          existingProfile = {
+            id: supId,
+            company: comp,
+            name: sName,
+            gender: "Male",
+            shift12Rate: 822,
+            bank: "",
+            ifsc: "",
+            aadhaar: "",
+            pan: "",
+            uan: "",
+            basicRatio: 60,
+            pfPct: 12,
+            esicPct: 0.75,
+            ptAmount: 200
+          };
+          state.people.push(existingProfile);
+        }
+        list.push({
+          key: supId,
+          name: `${sName} (सुपरवायझर)`,
+          rawName: sName,
+          gender: existingProfile.gender || "Male",
+          shift12Rate: existingProfile.shift12Rate ?? 822,
+          personObj: existingProfile
+        });
+      });
+      return list;
+    }
+
+    function getEffectiveHours(comp, hours, otHours) {
+      const h = parseFloat(hours) || 0;
+      const ot = parseFloat(otHours) || 0;
+      if (OT_COMPANIES.includes(comp)) return h + ot;
+      return h;
+    }
+
+    function calcRowAmount(comp, person, hours, otHours, prodLines, shiftRateOverride) {
+      const effHrs = getEffectiveHours(comp, hours, otHours);
+      const shiftRate = shiftRateOverride !== undefined ? (parseFloat(shiftRateOverride) || 0) : (parseFloat(person.shift12Rate ?? 822) || 0);
+      const shiftAmt = (effHrs / SHIFT_HOURS) * shiftRate;
+
+      if (PIECE_COMPANIES.includes(comp)) {
+        let prodAmt = 0;
+        (prodLines || []).forEach(line => {
+          const prod = state.products.find(pr => pr.id === line.productId);
+          const qty = parseFloat(line.qty) || 0;
+          const paise = prod ? (parseFloat(prod.paise) || 0) : 0;
+          prodAmt += qty * (paise / 100);
+        });
+        return shiftAmt + prodAmt;
+      }
+      return shiftAmt;
+    }
+
+    function renderEntrySheet() {
+      const dateStr = document.getElementById("entryDate").value || todayISO();
+      const monthStr = dateStr.slice(0, 7);
+      const comp = document.getElementById("entryCompany").value;
+      const isPiece = PIECE_COMPANIES.includes(comp);
+      const isOt = OT_COMPANIES.includes(comp);
+
+      document.getElementById("thOt").style.display = isOt ? "" : "none";
+      document.getElementById("thProd").style.display = isPiece ? "" : "none";
+
+      if (isPiece) {
+        document.getElementById("companyRuleText").textContent = `${comp}: Daily तास ((तास / 12) × 12h दर) + Proqnt × Pro rate`;
+      } else if (comp === "AEL") {
+        document.getElementById("companyRuleText").textContent = `${comp}: फक्त Daily तास — १२ तास = १ हजेरी ((तास / 12) × 12h दर)`;
+      } else {
+        document.getElementById("companyRuleText").textContent = `${comp}: (Daily तास + OT) / 12 = हजेरी, आणि हजेरी × 12h दर`;
+      }
+
+      const allPeople = getAllCompanyPeople(comp);
+      const alreadyDoneIds = new Set(
+        state.entries.filter(e => e.date === dateStr && e.company === comp).map(e => e.personId)
+      );
+      const pendingPeople = allPeople.filter(p => !alreadyDoneIds.has(p.key));
+      document.getElementById("pendingCountInfo").textContent =
+        `एकूण: ${allPeople.length} | नोंद झालेले: ${alreadyDoneIds.size} | बाकी: ${pendingPeople.length}`;
+
+      const tbody = document.getElementById("entryRows");
+      tbody.innerHTML = "";
+      const activeProducts = state.products.filter(pr => pr.company === comp && pr.active);
+
+      pendingPeople.forEach(p => {
+        const effectiveRate = getEffectiveMonthShiftRate(comp, monthStr, p.personObj, p.key);
+        const tr = document.createElement("tr");
+        tr.dataset.personId = p.key;
+
+        let prodCellHtml = "";
+        if (isPiece) {
+          const opts = activeProducts.map(pr => `<option value="${pr.id}">${pr.name} (${pr.paise} पैसे)</option>`).join("");
+          prodCellHtml = `
+            <td class="prod-col">
+              <div class="prod-list">
+                <div class="prod-item">
+                  <select class="p-select" onchange="recalcEntryRow(this)">${opts}</select>
+                  <input type="number" class="p-qty" placeholder="Proqnt" min="0" oninput="recalcEntryRow(this)" />
+                  <button type="button" class="btn btn-sm btn-red" onclick="this.closest('.prod-item').remove(); recalcEntryRow(this);">X</button>
+                </div>
+              </div>
+              <button type="button" class="btn btn-sm btn-blue" style="margin-top:6px;" onclick="addProdLine(this, '${comp}')">+ प्रॉडक्ट</button>
+            </td>
+          `;
+        }
+
+        tr.innerHTML = `
+          <td><strong>${p.name}</strong><br><span class="muted">12h दर (${monthStr}): ₹${effectiveRate}</span></td>
+          <td><input type="number" class="e-hours" step="0.5" min="0" placeholder="उदा. 12 किंवा 10" oninput="recalcEntryRow(this)" /></td>
+          <td class="ot-col" style="${isOt ? "" : "display:none;"}">
+            <input type="number" class="e-ot" step="0.5" min="0" placeholder="OT तास" oninput="recalcEntryRow(this)" />
+          </td>
+          ${prodCellHtml}
+          <td class="e-amt" style="font-weight:700;">₹0.00</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function addProdLine(btn, comp) {
+      const list = btn.previousElementSibling;
+      if (list.children.length >= 6) {
+        alert("एका वेळी कमाल ६ प्रॉडक्ट्स जोडता येतील.");
+        return;
+      }
+      const activeProducts = state.products.filter(pr => pr.company === comp && pr.active);
+      const opts = activeProducts.map(pr => `<option value="${pr.id}">${pr.name} (${pr.paise} पैसे)</option>`).join("");
+      const div = document.createElement("div");
+      div.className = "prod-item";
+      div.innerHTML = `
+        <select class="p-select" onchange="recalcEntryRow(this)">${opts}</select>
+        <input type="number" class="p-qty" placeholder="Proqnt" min="0" oninput="recalcEntryRow(this)" />
+        <button type="button" class="btn btn-sm btn-red" onclick="this.closest('.prod-item').remove(); recalcEntryRow(this);">X</button>
+      `;
+      list.appendChild(div);
+    }
+
+    function recalcEntryRow(el) {
+      const tr = el.closest("tr");
+      const dateStr = document.getElementById("entryDate").value || todayISO();
+      const monthStr = dateStr.slice(0, 7);
+      const comp = document.getElementById("entryCompany").value;
+      const personId = tr.dataset.personId;
+      const pInfo = getAllCompanyPeople(comp).find(x => x.key === personId);
+      const person = pInfo?.personObj || { shift12Rate: 822 };
+      const rate12 = getEffectiveMonthShiftRate(comp, monthStr, person, personId);
+
+      const hours = parseFloat(tr.querySelector(".e-hours")?.value) || 0;
+      const otHours = parseFloat(tr.querySelector(".e-ot")?.value) || 0;
+      const prodLines = [];
+      tr.querySelectorAll(".prod-item").forEach(item => {
+        prodLines.push({
+          productId: item.querySelector(".p-select").value,
+          qty: parseFloat(item.querySelector(".p-qty").value) || 0
+        });
+      });
+      const amt = calcRowAmount(comp, person, hours, otHours, prodLines, rate12);
+      tr.querySelector(".e-amt").textContent = "₹" + amt.toFixed(2);
+    }
+
+    function saveDailyEntries() {
+      const dateStr = document.getElementById("entryDate").value || todayISO();
+      const comp = document.getElementById("entryCompany").value;
+      const sup = document.getElementById("entrySupervisor").value;
+      const msg = document.getElementById("entryMsg");
+
+      let addedCount = 0;
+      document.querySelectorAll("#entryRows tr").forEach(tr => {
+        const personId = tr.dataset.personId;
+        const hours = parseFloat(tr.querySelector(".e-hours")?.value) || 0;
+        const otHours = parseFloat(tr.querySelector(".e-ot")?.value) || 0;
+        const prodLines = [];
+        tr.querySelectorAll(".prod-item").forEach(item => {
+          const qty = parseFloat(item.querySelector(".p-qty").value) || 0;
+          if (qty > 0) prodLines.push({ productId: item.querySelector(".p-select").value, qty });
+        });
+
+        if (hours > 0 || otHours > 0 || prodLines.length > 0) {
+          state.entries = state.entries.filter(
+            e => !(e.date === dateStr && e.company === comp && e.personId === personId)
+          );
+          state.entries.push({ date: dateStr, company: comp, supervisor: sup, personId, hours, otHours, prodLines });
+          addedCount++;
+        }
+      });
+
+      if (addedCount === 0) {
+        msg.className = "msg err";
+        msg.textContent = "कृपया किमान एका व्यक्तीचे तास, OT किंवा प्रॉडक्ट क्वांटिटी भरा.";
+        return;
+      }
+
+      persistState();
+      msg.className = "msg ok";
+      msg.textContent = `${addedCount} नोंदी सेव्ह झाल्या! ज्यांची नोंद झाली आहे ते यादीतून हटवले गेले आहेत.`;
+      renderEntrySheet();
+    }
+
+    function clearDateCompanyEntries() {
+      const dateStr = document.getElementById("entryDate").value || todayISO();
+      const comp = document.getElementById("entryCompany").value;
+      const before = state.entries.length;
+      state.entries = state.entries.filter(e => !(e.date === dateStr && e.company === comp));
+      const removed = before - state.entries.length;
+      persistState();
+      const msg = document.getElementById("entryMsg");
+      msg.className = removed > 0 ? "msg ok" : "msg err";
+      msg.textContent = removed > 0
+        ? `${comp} (${dateStr}) साठी ${removed} नोंदी रीसेट केल्या; आता पुन्हा भरता येतील.`
+        : `${comp} (${dateStr}) साठी कोणतीही नोंद नव्हती.`;
+      renderEntrySheet();
+    }
+
+    function getDaysListForBook(monthStr, mode) {
+      if (mode === "sample_26_28") return ["26", "27", "28"];
+      if (mode === "sample_1_4") return ["1", "2", "3", "4"];
+      const [y, m] = monthStr.split("-").map(Number);
+      const totalDays = new Date(y, m, 0).getDate() || 30;
+      return Array.from({ length: totalDays }, (_, i) => String(i + 1));
+    }
+
+    function getDayEntryForPerson(comp, monthStr, dayStr, personKey) {
+      const paddedDay = dayStr.padStart(2, "0");
+      const target1 = `${monthStr}-${paddedDay}`;
+      const target2 = `${monthStr}-${dayStr}`;
+      return state.entries.filter(
+        e => e.company === comp && e.personId === personKey && (e.date === target1 || e.date === target2)
+      );
+    }
+
+    function renderHajeriBook() {
+      const comp = document.getElementById("hbCompany").value;
+      const monthStr = document.getElementById("hbMonth").value || todayISO().slice(0, 7);
+      const mode = document.getElementById("hbMode").value;
+      const days = getDaysListForBook(monthStr, mode);
+      const people = getAllCompanyPeople(comp);
+
+      const thead = document.getElementById("hbThead");
+      const tbody = document.getElementById("hbTbody");
+      thead.innerHTML = "";
+      tbody.innerHTML = "";
+
+      if (comp === "AEL") {
+        document.getElementById("hbRuleTitle").textContent = "AEL हजेरी बुक:";
+        document.getElementById("hbRuleDesc").textContent = "Date (26, 27, 28...) आणि Naav प्रमाणे रोजचे तास (0, 12, 10...)";
+
+        const trHead = document.createElement("tr");
+        trHead.innerHTML = `<th>Naav / Date</th>` + days.map(d => `<th>${d}</th>`).join("");
+        thead.appendChild(trHead);
+
+        people.forEach(p => {
+          const tr = document.createElement("tr");
+          const cells = days.map(d => {
+            const list = getDayEntryForPerson(comp, monthStr, d, p.key);
+            const hrs = list.reduce((s, x) => s + (parseFloat(x.hours) || 0), 0);
+            return `<td>${hrs}</td>`;
+          }).join("");
+          tr.innerHTML = `<td><strong>${p.rawName}</strong></td>` + cells;
+          tbody.appendChild(tr);
+        });
+      } else if (PIECE_COMPANIES.includes(comp)) {
+        document.getElementById("hbRuleTitle").textContent = `${comp} हजेरी व उत्पादन बुक:`;
+        document.getElementById("hbRuleDesc").textContent = "प्रत्येक व्यक्तीसाठी Name, Daily (तास), Proqnt (क्वांटिटी), आणि Pro rate (₹)";
+
+        const trHead = document.createElement("tr");
+        trHead.innerHTML = `<th>Name</th><th>Row Type</th>` + days.map(d => `<th>Date ${d}</th>`).join("");
+        thead.appendChild(trHead);
+
+        people.forEach(p => {
+          const dailyVals = [];
+          const qntVals = [];
+          const rateVals = [];
+
+          days.forEach(d => {
+            const list = getDayEntryForPerson(comp, monthStr, d, p.key);
+            const hrs = list.reduce((s, x) => s + (parseFloat(x.hours) || 0), 0);
+            let qtyTotal = 0;
+            let rateLabel = "-";
+
+            list.forEach(ent => {
+              (ent.prodLines || []).forEach(line => {
+                const q = parseFloat(line.qty) || 0;
+                qtyTotal += q;
+                const pr = state.products.find(item => item.id === line.productId);
+                if (pr && q > 0) {
+                  rateLabel = `${(parseFloat(pr.paise) / 100).toFixed(2)}`;
+                }
+              });
+            });
+
+            dailyVals.push(hrs > 0 ? String(hrs) : "");
+            qntVals.push(qtyTotal > 0 ? String(qtyTotal) : "");
+            rateVals.push(rateLabel !== "-" ? rateLabel : "");
+          });
+
+          const tr1 = document.createElement("tr");
+          tr1.innerHTML = `<td rowspan="3"><strong>${p.rawName}</strong></td><td><strong>Daily</strong></td>` + dailyVals.map(v => `<td>${v}</td>`).join("");
+          const tr2 = document.createElement("tr");
+          tr2.innerHTML = `<td><strong>Proqnt</strong></td>` + qntVals.map(v => `<td>${v}</td>`).join("");
+          const tr3 = document.createElement("tr");
+          tr3.innerHTML = `<td><strong>Pro rate</strong></td>` + rateVals.map(v => `<td>${v}</td>`).join("");
+          tbody.appendChild(tr1);
+          tbody.appendChild(tr2);
+          tbody.appendChild(tr3);
+        });
+      } else {
+        document.getElementById("hbRuleTitle").textContent = `${comp} हजेरी व OT बुक:`;
+        document.getElementById("hbRuleDesc").textContent = "Name, Total days (hajari), आणि OT (hajari)";
+
+        const trHead = document.createElement("tr");
+        trHead.innerHTML = `<th>Name</th><th>Total days (hajari)</th><th>OT (hajari)</th>`;
+        thead.appendChild(trHead);
+
+        people.forEach(p => {
+          const monthEntries = state.entries.filter(
+            e => e.company === comp && e.personId === p.key && e.date.startsWith(monthStr)
+          );
+          const totalHrs = monthEntries.reduce((s, x) => s + (parseFloat(x.hours) || 0), 0);
+          const totalOt = monthEntries.reduce((s, x) => s + (parseFloat(x.otHours) || 0), 0);
+          const totalDaysHajeri = totalHrs / SHIFT_HOURS;
+          const otHajeri = totalOt / SHIFT_HOURS;
+
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td><strong>${p.rawName}</strong></td>
+            <td>${totalDaysHajeri.toFixed(2)} (${totalHrs} hrs)</td>
+            <td>${otHajeri.toFixed(2)} (${totalOt} ot hrs)</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+    }
+
+    function exportHajeriBookCSV() {
+      const comp = document.getElementById("hbCompany").value;
+      const monthStr = document.getElementById("hbMonth").value || todayISO().slice(0, 7);
+      const mode = document.getElementById("hbMode").value;
+      const days = getDaysListForBook(monthStr, mode);
+      const people = getAllCompanyPeople(comp);
+      const rows = [];
+
+      if (comp === "AEL") {
+        rows.push(["Naav", ...days.map(d => `Date ${d}`)]);
+        people.forEach(p => {
+          rows.push([
+            p.rawName,
+            ...days.map(d => {
+              const list = getDayEntryForPerson(comp, monthStr, d, p.key);
+              return list.reduce((s, x) => s + (parseFloat(x.hours) || 0), 0);
+            })
+          ]);
+        });
+      } else if (PIECE_COMPANIES.includes(comp)) {
+        rows.push(["Name", "Type", ...days.map(d => `Date ${d}`)]);
+        people.forEach(p => {
+          const dRow = ["Daily"];
+          const qRow = ["Proqnt"];
+          const rRow = ["Pro rate"];
+          days.forEach(d => {
+            const list = getDayEntryForPerson(comp, monthStr, d, p.key);
+            const hrs = list.reduce((s, x) => s + (parseFloat(x.hours) || 0), 0);
+            let qtyTotal = 0;
+            let rateVal = "";
+            list.forEach(ent => {
+              (ent.prodLines || []).forEach(line => {
+                const q = parseFloat(line.qty) || 0;
+                qtyTotal += q;
+                const pr = state.products.find(item => item.id === line.productId);
+                if (pr && q > 0) rateVal = (parseFloat(pr.paise) / 100).toFixed(2);
+              });
+            });
+            dRow.push(hrs || "");
+            qRow.push(qtyTotal || "");
+            rRow.push(rateVal);
+          });
+          rows.push([p.rawName, ...dRow]);
+          rows.push([p.rawName, ...qRow]);
+          rows.push([p.rawName, ...rRow]);
+        });
+      } else {
+        rows.push(["Name", "Total days (hajari)", "OT (hajari)"]);
+        people.forEach(p => {
+          const monthEntries = state.entries.filter(
+            e => e.company === comp && e.personId === p.key && e.date.startsWith(monthStr)
+          );
+          const totalHrs = monthEntries.reduce((s, x) => s + (parseFloat(x.hours) || 0), 0);
+          const totalOt = monthEntries.reduce((s, x) => s + (parseFloat(x.otHours) || 0), 0);
+          rows.push([p.rawName, (totalHrs / SHIFT_HOURS).toFixed(2), (totalOt / SHIFT_HOURS).toFixed(2)]);
+        });
+      }
+
+      downloadCSV(rows, `hajeri_book_${comp}_${monthStr}.csv`);
+    }
+
+    function onSdCompanyChange() {
+      const comp = document.getElementById("sdCompany").value;
+      const sel = document.getElementById("sdPerson");
+      sel.innerHTML = "";
+      getAllCompanyPeople(comp).forEach(p => {
+        const opt = document.createElement("option");
+        opt.value = p.key;
+        opt.textContent = p.name;
+        sel.appendChild(opt);
+      });
+      renderSpecialDeductions();
+    }
+
+    function addSpecialDeduction() {
+      const dateStr = document.getElementById("sdDate").value || todayISO();
+      const comp = document.getElementById("sdCompany").value;
+      const personId = document.getElementById("sdPerson").value;
+      const slot = document.getElementById("sdSlot").value;
+      const amount = parseFloat(document.getElementById("sdAmount").value);
+      const note = document.getElementById("sdNote").value.trim();
+      const msg = document.getElementById("sdMsg");
+      if (!personId || isNaN(amount) || amount <= 0) {
+        msg.className = "msg err";
+        msg.textContent = "कृपया व्यक्ती आणि योग्य रक्कम (₹) टाका.";
+        return;
+      }
+      state.specialDeductions.push({ id: `SD_${Date.now()}`, date: dateStr, company: comp, personId, slot, amount, note });
+      document.getElementById("sdAmount").value = "";
+      document.getElementById("sdNote").value = "";
+      persistState();
+      msg.className = "msg ok";
+      msg.textContent = `${dateStr} साठी ${slot} (₹${amount.toFixed(2)}) नोंद सेव्ह झाली.`;
+      renderSpecialDeductions();
+    }
+
+    function removeSpecialDeduction(sdId) {
+      state.specialDeductions = state.specialDeductions.filter(x => x.id !== sdId);
+      persistState();
+      renderSpecialDeductions();
+    }
+
+    function renderSpecialDeductions() {
+      const comp = document.getElementById("sdCompany").value;
+      const tbody = document.getElementById("sdTableBody");
+      tbody.innerHTML = "";
+      (state.specialDeductions || []).filter(x => x.company === comp).forEach(item => {
+        const pInfo = getAllCompanyPeople(comp).find(x => x.key === item.personId);
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${item.date}</td>
+          <td>${item.company}</td>
+          <td>${pInfo ? pInfo.name : item.personId}</td>
+          <td>${item.slot || item.category || "Ded 1"}</td>
+          <td>₹${Number(item.amount).toFixed(2)}</td>
+          <td>${item.note || "-"}</td>
+          <td><button type="button" class="btn btn-sm btn-red" onclick="removeSpecialDeduction('${item.id}')">काढा</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function ensureEditablePersonRecord(personKey) {
+      let target = state.people.find(p => p.id === personKey);
+      if (!target) {
+        const comp = document.getElementById("payCompany")?.value;
+        const pInfo = getAllCompanyPeople(comp).find(x => x.key === personKey);
+        if (pInfo && pInfo.personObj) {
+          target = { ...pInfo.personObj };
+          state.people.push(target);
+        }
+      }
+      return target;
+    }
+
+    function computePersonMonthPayroll(comp, monthStr, pInfo) {
+      const p = pInfo.personObj;
+      const rate12 = getEffectiveMonthShiftRate(comp, monthStr, p, pInfo.key);
+      const matchingEntries = state.entries.filter(
+        e => e.company === comp && e.personId === pInfo.key && e.date.startsWith(monthStr)
+      );
+
+      let totalHrs = 0;
+      let totalOtHrs = 0;
+      let totalQty = 0;
+      let gross = 0;
+
+      matchingEntries.forEach(e => {
+        const h = parseFloat(e.hours) || 0;
+        const ot = parseFloat(e.otHours) || 0;
+        const qtySum = (e.prodLines || []).reduce((acc, l) => acc + (parseFloat(l.qty) || 0), 0);
+        totalHrs += h;
+        totalOtHrs += ot;
+        totalQty += qtySum;
+        gross += calcRowAmount(comp, p, h, ot, e.prodLines, rate12);
+      });
+
+      const totalDaysHajeri = totalHrs / SHIFT_HOURS;
+      const otHajeri = totalOtHrs / SHIFT_HOURS;
+
+      const basicRatio = (parseFloat(p.basicRatio) || 60) / 100;
+      const basic = gross * basicRatio;
+
+      const pfRaw = parseFloat(p.pfPct ?? 12);
+      const safePfPct = isNaN(pfRaw) || pfRaw < 0 ? 0 : pfRaw;
+      const pf = basic * (safePfPct / 100);
+
+      const esicRaw = parseFloat(p.esicPct ?? 0.75);
+      const safeEsicPct = isNaN(esicRaw) || esicRaw < 0 ? 0 : esicRaw;
+      const esic = gross * (safeEsicPct / 100);
+
+      const ptRaw = parseFloat(p.ptAmount ?? (p.gender === "Male" ? 200 : 0));
+      const pt = isNaN(ptRaw) || ptRaw < 0 ? 0 : ptRaw;
+
+      const monthSds = (state.specialDeductions || []).filter(
+        sd => sd.company === comp && sd.personId === pInfo.key && sd.date.startsWith(monthStr)
+      );
+
+      const ded1 = monthSds.filter(x => (x.slot || x.category) === "Ded 1" || x.category === "Bhajipala" || x.category === "Advance 1").reduce((s, x) => s + (parseFloat(x.amount) || 0), 0);
+      const ded2 = monthSds.filter(x => (x.slot || x.category) === "Ded 2" || x.category === "Room Rent" || x.category === "Advance 2").reduce((s, x) => s + (parseFloat(x.amount) || 0), 0);
+      const ded3 = monthSds.filter(x => (x.slot || x.category) === "Ded 3" || x.category === "Kapade").reduce((s, x) => s + (parseFloat(x.amount) || 0), 0);
+      const ded4 = monthSds.filter(x => (x.slot || x.category) === "Ded 4" || x.category === "Boot").reduce((s, x) => s + (parseFloat(x.amount) || 0), 0);
+
+      const specialTotal = ded1 + ded2 + ded3 + ded4;
+      const totalDed = pf + esic + pt + specialTotal;
+      const netPay = gross - totalDed;
+
+      return {
+        rate12,
+        totalHrs,
+        totalOtHrs,
+        totalDaysHajeri,
+        otHajeri,
+        totalQty,
+        gross,
+        basic,
+        pfPct: safePfPct,
+        pf,
+        esicPct: safeEsicPct,
+        esic,
+        pt,
+        ded1,
+        ded2,
+        ded3,
+        ded4,
+        totalDed,
+        netPay
+      };
+    }
+
+    function onMonthRateChange(comp, monthStr, personKey, inputEl) {
+      setEffectiveMonthShiftRate(comp, monthStr, personKey, inputEl.value);
+      renderPayroll();
+      renderEntrySheet();
+    }
+
+    function onPersonPfChange(personKey, inputEl) {
+      let val = parseFloat(inputEl.value);
+      if (isNaN(val) || val < 0) val = 0;
+      const target = ensureEditablePersonRecord(personKey);
+      if (target) target.pfPct = val;
+      persistState();
+      renderPayroll();
+    }
+
+    function onPersonEsicChange(personKey, inputEl) {
+      let val = parseFloat(inputEl.value);
+      if (isNaN(val) || val < 0) val = 0;
+      const target = ensureEditablePersonRecord(personKey);
+      if (target) target.esicPct = val;
+      persistState();
+      renderPayroll();
+    }
+
+    function onPersonPtChange(personKey, inputEl) {
+      let val = parseFloat(inputEl.value);
+      if (isNaN(val) || val < 0) val = 0;
+      const target = ensureEditablePersonRecord(personKey);
+      if (target) target.ptAmount = val;
+      persistState();
+      renderPayroll();
+    }
+
+    function renderPayroll() {
+      const comp = document.getElementById("payCompany").value;
+      const monthStr = document.getElementById("payMonth").value || todayISO().slice(0, 7);
+      const list = getAllCompanyPeople(comp);
+      const tbody = document.getElementById("payrollRows");
+      tbody.innerHTML = "";
+
+      let sumGross = 0, sumBasic = 0, sumPf = 0, sumEsic = 0, sumPt = 0, sumDed = 0, sumNet = 0;
+
+      list.forEach(pInfo => {
+        const c = computePersonMonthPayroll(comp, monthStr, pInfo);
+        sumGross += c.gross;
+        sumBasic += c.basic;
+        sumPf += c.pf;
+        sumEsic += c.esic;
+        sumPt += c.pt;
+        sumDed += c.totalDed;
+        sumNet += c.netPay;
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td><strong>${pInfo.rawName}</strong></td>
+          <td>
+            <input type="number" class="mini-input" value="${c.rate12}" step="1" min="0"
+              onchange="onMonthRateChange('${comp}', '${monthStr}', '${pInfo.key}', this)" />
+          </td>
+          <td>${c.totalDaysHajeri.toFixed(2)} (${c.totalHrs}h)</td>
+          <td>${c.otHajeri.toFixed(2)} (${c.totalOtHrs}h)</td>
+          <td>₹${c.gross.toFixed(2)}</td>
+          <td>₹${c.basic.toFixed(2)}</td>
+          <td>
+            <input type="number" class="mini-input" style="width:64px;" value="${c.pfPct}" step="0.5" min="0" max="100"
+              onchange="onPersonPfChange('${pInfo.key}', this)" />
+          </td>
+          <td>₹${c.pf.toFixed(2)}</td>
+          <td>
+            <input type="number" class="mini-input" style="width:64px;" value="${c.esicPct}" step="0.05" min="0" max="100"
+              onchange="onPersonEsicChange('${pInfo.key}', this)" />
+          </td>
+          <td>₹${c.esic.toFixed(2)}</td>
+          <td>
+            <input type="number" class="mini-input" style="width:68px;" value="${c.pt}" step="1" min="0"
+              onchange="onPersonPtChange('${pInfo.key}', this)" />
+          </td>
+          <td>₹${c.ded1.toFixed(2)}</td>
+          <td>₹${c.ded2.toFixed(2)}</td>
+          <td>₹${c.ded3.toFixed(2)}</td>
+          <td>₹${c.ded4.toFixed(2)}</td>
+          <td>₹${c.totalDed.toFixed(2)}</td>
+          <td style="font-weight:700;">₹${c.netPay.toFixed(2)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById("payrollTotals").innerHTML = `
+        <span>एकूण Gross: ₹${sumGross.toFixed(2)}</span>
+        <span>एकूण PF: ₹${sumPf.toFixed(2)}</span>
+        <span>एकूण ESIC: ₹${sumEsic.toFixed(2)}</span>
+        <span>एकूण PT: ₹${sumPt.toFixed(2)}</span>
+        <span>एकूण Deduction: ₹${sumDed.toFixed(2)}</span>
+        <span>एकूण Net Pay: ₹${sumNet.toFixed(2)}</span>
+      `;
+    }
+
+    function downloadManualHajeriExcel() {
+      const comp = document.getElementById("payCompany").value;
+      const monthStr = document.getElementById("payMonth").value || todayISO().slice(0, 7);
+      const list = getAllCompanyPeople(comp);
+      const rows = [[
+        "Month",
+        "Company",
+        "Naav",
+        "Worked Hrs (Manual)",
+        "OT Hrs (Manual)",
+        "12h Shift Rate (INR)"
+      ]];
+      list.forEach(pInfo => {
+        const c = computePersonMonthPayroll(comp, monthStr, pInfo);
+        rows.push([
+          monthStr,
+          comp,
+          pInfo.rawName,
+          c.totalHrs.toFixed(2),
+          c.totalOtHrs.toFixed(2),
+          c.rate12.toFixed(2)
+        ]);
+      });
+      downloadCSV(rows, `manual_hajeri_${comp}_${monthStr}.csv`);
+    }
+
+    function parseCSVLine(line) {
+      const result = [];
+      let cur = "";
+      let inQuotes = false;
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (ch === '"') {
+          if (inQuotes && line[i + 1] === '"') {
+            cur += '"';
+            i++;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (ch === "," && !inQuotes) {
+          result.push(cur.trim());
+          cur = "";
+        } else {
+          cur += ch;
+        }
+      }
+      result.push(cur.trim());
+      return result;
+    }
+
+    function handleImportHajeriCSV(event) {
+      const file = event.target.files?.[0];
+      const msg = document.getElementById("payrollMsg");
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const text = String(e.target.result || "").replace(/^\uFEFF/, "");
+          const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
+          if (lines.length < 2) {
+            msg.className = "msg err";
+            msg.textContent = "CSV फाइलमध्ये डेटा सापडला नाही.";
+            return;
+          }
+
+          const selectedComp = document.getElementById("payCompany").value;
+          const selectedMonth = document.getElementById("payMonth").value || todayISO().slice(0, 7);
+          const allPeople = getAllCompanyPeople(selectedComp);
+          const supName = (state.supervisorsByCompany[selectedComp] || [])[0] || "Supervisor";
+
+          let updatedCount = 0;
+          for (let i = 1; i < lines.length; i++) {
+            const cols = parseCSVLine(lines[i]);
+            const rowMonth = cols[0] || selectedMonth;
+            const rowComp = cols[1] || selectedComp;
+            const rowName = cols[2] || "";
+            const manualHrs = parseFloat(cols[3]);
+            const manualOt = parseFloat(cols[4]) || 0;
+            const manualRate = parseFloat(cols[5]);
+
+            if (rowComp !== selectedComp) continue;
+            const personMatch = allPeople.find(
+              p => p.rawName.toLowerCase() === rowName.toLowerCase() || p.name.toLowerCase() === rowName.toLowerCase()
+            );
+            if (!personMatch) continue;
+
+            if (!isNaN(manualRate) && manualRate > 0) {
+              setEffectiveMonthShiftRate(selectedComp, rowMonth, personMatch.key, manualRate);
+            }
+
+            if (!isNaN(manualHrs) && manualHrs >= 0) {
+              state.entries = state.entries.filter(
+                ent => !(ent.company === selectedComp && ent.personId === personMatch.key && ent.date.startsWith(rowMonth))
+              );
+              if (manualHrs > 0 || manualOt > 0) {
+                state.entries.push({
+                  date: `${rowMonth}-01`,
+                  company: selectedComp,
+                  supervisor: supName,
+                  personId: personMatch.key,
+                  hours: manualHrs,
+                  otHours: manualOt,
+                  prodLines: []
+                });
+              }
+            }
+            updatedCount++;
+          }
+
+          persistState();
+          msg.className = "msg ok";
+          msg.textContent = `Excel मधून ${updatedCount} कामगारांची मॅन्युअल हजेरी व दर अपडेट झाले!`;
+          renderPayroll();
+          renderEntrySheet();
+        } catch (err) {
+          msg.className = "msg err";
+          msg.textContent = "CSV वाचताना त्रुटी आली.";
+        } finally {
+          event.target.value = "";
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function exportPayrollCSV() {
+      const comp = document.getElementById("payCompany").value;
+      const monthStr = document.getElementById("payMonth").value || todayISO().slice(0, 7);
+      const list = getAllCompanyPeople(comp);
+      const rows = [[
+        "Month",
+        "Company",
+        "Naav",
+        "12h Shift Rate",
+        "Total Days (Hajeri)",
+        "OT (Hajeri)",
+        "Gross",
+        "Basic",
+        "PF %",
+        "PF",
+        "ESIC %",
+        "ESIC",
+        "PT",
+        "Ded 1",
+        "Ded 2",
+        "Ded 3",
+        "Ded 4",
+        "Total Deduction",
+        "Net Pay"
+      ]];
+      list.forEach(pInfo => {
+        const c = computePersonMonthPayroll(comp, monthStr, pInfo);
+        rows.push([
+          monthStr,
+          comp,
+          pInfo.rawName,
+          c.rate12.toFixed(2),
+          c.totalDaysHajeri.toFixed(2),
+          c.otHajeri.toFixed(2),
+          c.gross.toFixed(2),
+          c.basic.toFixed(2),
+          c.pfPct.toFixed(2),
+          c.pf.toFixed(2),
+          c.esicPct.toFixed(2),
+          c.esic.toFixed(2),
+          c.pt.toFixed(2),
+          c.ded1.toFixed(2),
+          c.ded2.toFixed(2),
+          c.ded3.toFixed(2),
+          c.ded4.toFixed(2),
+          c.totalDed.toFixed(2),
+          c.netPay.toFixed(2)
+        ]);
+      });
+      downloadCSV(rows, `full_payroll_${comp}_${monthStr}.csv`);
+    }
+
+    function addSupervisor() {
+      const comp = document.getElementById("newSupCompany").value;
+      const name = document.getElementById("newSupName").value.trim();
+      const gender = document.getElementById("newSupGender")?.value || "Male";
+      const hajeriRateInput = parseFloat(document.getElementById("newSupHajeriRate")?.value);
+      const shift12Rate = !isNaN(hajeriRateInput) && hajeriRateInput >= 0 ? hajeriRateInput : 822;
+      const msg = document.getElementById("rosterMsg");
+      if (!name) {
+        msg.className = "msg err";
+        msg.textContent = "सुपरवायझरचे नाव टाका.";
+        return;
+      }
+      if (!state.supervisorsByCompany[comp]) state.supervisorsByCompany[comp] = [];
+      if (!state.supervisorsByCompany[comp].includes(name)) state.supervisorsByCompany[comp].push(name);
+
+      const supId = `${comp}_SUP_${name}`;
+      const startDate = todayISO();
+      const defaultPt = gender === "Male" ? 200 : 0;
+      let supProfile = state.people.find(p => p.id === supId);
+      if (!supProfile) {
+        state.people.push({
+          id: supId,
+          company: comp,
+          name,
+          gender,
+          shift12Rate,
+          lastIncrementDate: startDate,
+          nextReviewDate: addMonthsISO(startDate, 4),
+          bank: "",
+          ifsc: "",
+          aadhaar: "",
+          pan: "",
+          uan: "",
+          basicRatio: 60,
+          pfPct: 12,
+          esicPct: 0.75,
+          ptAmount: defaultPt
+        });
+      } else {
+        supProfile.gender = gender;
+        supProfile.shift12Rate = shift12Rate;
+        supProfile.ptAmount = defaultPt;
+      }
+
+      document.getElementById("newSupName").value = "";
+      document.getElementById("newSupGender").value = "Male";
+      document.getElementById("newSupHajeriRate").value = "822";
+      persistState();
+      msg.className = "msg ok";
+      msg.textContent = `सुपरवायझर (${name}, ${gender}) ₹${shift12Rate} हजेरी दरासह जोडला गेला.`;
+      onEntryCompanyChange();
+      renderRoster();
+    }
+
+    function removeSupervisor(comp, supName) {
+      const supId = `${comp}_SUP_${supName}`;
+      state.supervisorsByCompany[comp] = (state.supervisorsByCompany[comp] || []).filter(s => s !== supName);
+      state.people = state.people.filter(p => p.id !== supId);
+      state.entries = state.entries.filter(e => e.personId !== supId);
+      state.specialDeductions = state.specialDeductions.filter(sd => sd.personId !== supId);
+      persistState();
+      const msg = document.getElementById("rosterMsg");
+      if (msg) {
+        msg.className = "msg ok";
+        msg.textContent = `${supName} यादीतून काढले गेले.`;
+      }
+      onEntryCompanyChange();
+      renderRoster();
+    }
+
+    function addWorker() {
+      const comp = document.getElementById("newWorkCompany").value;
+      const name = document.getElementById("newWorkName").value.trim();
+      const gender = document.getElementById("newWorkGender").value;
+      const shift12Rate = parseFloat(document.getElementById("newWorkRate").value) || 822;
+      const msg = document.getElementById("rosterMsg");
+      if (!name) {
+        msg.className = "msg err";
+        msg.textContent = "कामगाराचे नाव टाका.";
+        return;
+      }
+      const startDate = todayISO();
+      state.people.push({
+        id: `${comp}_W_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+        company: comp,
+        name,
+        gender,
+        shift12Rate,
+        lastIncrementDate: startDate,
+        nextReviewDate: addMonthsISO(startDate, 4),
+        bank: "",
+        ifsc: "",
+        aadhaar: "",
+        pan: "",
+        uan: "",
+        basicRatio: 60,
+        pfPct: 12,
+        esicPct: 0.75,
+        ptAmount: gender === "Male" ? 200 : 0
+      });
+      document.getElementById("newWorkName").value = "";
+      persistState();
+      msg.className = "msg ok";
+      msg.textContent = "कामगार जोडला गेला.";
+      renderEntrySheet();
+      renderRoster();
+    }
+
+    function removeWorker(id) {
+      const removedPerson = state.people.find(p => p.id === id);
+      state.people = state.people.filter(p => p.id !== id);
+      state.entries = state.entries.filter(e => e.personId !== id);
+      state.specialDeductions = state.specialDeductions.filter(sd => sd.personId !== id);
+      persistState();
+      const msg = document.getElementById("rosterMsg");
+      if (msg) {
+        msg.className = "msg ok";
+        msg.textContent = `${removedPerson ? removedPerson.name : "नाव"} यादीतून काढले गेले.`;
+      }
+      renderEntrySheet();
+      renderRoster();
+    }
+
+    function renderRoster() {
+      const supInfo = COMPANIES.map(c => {
+        const sups = state.supervisorsByCompany[c] || [];
+        const chips = sups.map(s => {
+          const supProfile = state.people.find(p => p.id === `${c}_SUP_${s}`);
+          const rateLabel = supProfile ? ` (₹${supProfile.shift12Rate ?? 822}, ${supProfile.gender || "Male"})` : " (₹822, Male)";
+          return `${s}${rateLabel} [ <button type="button" class="btn btn-sm btn-red" style="padding:1px 6px;" onclick="removeSupervisor('${c}', '${s.replace(/'/g, "\\'")}')">काढा</button> ]`;
+        }).join(", ");
+        return `<div style="margin-bottom:4px;"><strong>${c}:</strong> ${chips || "कोणीही नाही"}</div>`;
+      }).join("");
+      document.getElementById("supListView").innerHTML = supInfo;
+
+      const tbody = document.getElementById("rosterTableBody");
+      tbody.innerHTML = "";
+      state.people.filter(p => !p.id.includes("_SUP_")).forEach(p => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${p.company}</td>
+          <td>${p.name}</td>
+          <td>${p.gender}</td>
+          <td>₹${p.shift12Rate ?? 822}</td>
+          <td><button type="button" class="btn btn-sm btn-red" onclick="removeWorker('${p.id}')">काढा</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderKyc() {
+      const sel = document.getElementById("kycPersonSelect");
+      const prev = sel.value;
+      sel.innerHTML = "";
+      state.people.forEach(p => {
+        const opt = document.createElement("option");
+        opt.value = p.id;
+        opt.textContent = `${p.company} — ${p.name}`;
+        if (p.id === prev) opt.selected = true;
+        sel.appendChild(opt);
+      });
+      loadKycForm();
+
+      const tbody = document.getElementById("kycTableBody");
+      tbody.innerHTML = "";
+      state.people.forEach(p => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${p.company}</td>
+          <td>${p.name}</td>
+          <td>${p.gender}</td>
+          <td>${p.pfPct ?? 12}%</td>
+          <td>${p.esicPct ?? 0.75}%</td>
+          <td>₹${p.ptAmount ?? (p.gender === "Male" ? 200 : 0)}</td>
+          <td>${p.bank || "-"}</td>
+          <td>${p.aadhaar ? "••••" + p.aadhaar.slice(-4) : "-"}</td>
+          <td>${p.pan || "-"}</td>
+          <td>${p.uan || "-"}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function loadKycForm() {
+      const id = document.getElementById("kycPersonSelect").value;
+      const p = state.people.find(x => x.id === id);
+      if (!p) return;
+      document.getElementById("kycBank").value = p.bank || "";
+      document.getElementById("kycIfsc").value = p.ifsc || "";
+      document.getElementById("kycAadhaar").value = p.aadhaar || "";
+      document.getElementById("kycPan").value = p.pan || "";
+      document.getElementById("kycUan").value = p.uan || "";
+      document.getElementById("kycBasicRatio").value = p.basicRatio ?? 60;
+      document.getElementById("kycPfPct").value = p.pfPct ?? 12;
+      document.getElementById("kycEsicPct").value = p.esicPct ?? 0.75;
+      document.getElementById("kycPt").value = p.ptAmount ?? (p.gender === "Male" ? 200 : 0);
+    }
+
+    function saveKycProfile() {
+      const id = document.getElementById("kycPersonSelect").value;
+      const p = state.people.find(x => x.id === id);
+      if (!p) return;
+      p.bank = document.getElementById("kycBank").value.trim();
+      p.ifsc = document.getElementById("kycIfsc").value.trim();
+      p.aadhaar = document.getElementById("kycAadhaar").value.trim();
+      p.pan = document.getElementById("kycPan").value.trim();
+      p.uan = document.getElementById("kycUan").value.trim();
+      p.basicRatio = parseFloat(document.getElementById("kycBasicRatio").value) || 60;
+      const pfVal = parseFloat(document.getElementById("kycPfPct").value);
+      p.pfPct = isNaN(pfVal) || pfVal < 0 ? 0 : pfVal;
+      const esicVal = parseFloat(document.getElementById("kycEsicPct").value);
+      p.esicPct = isNaN(esicVal) || esicVal < 0 ? 0 : esicVal;
+      const ptVal = parseFloat(document.getElementById("kycPt").value);
+      p.ptAmount = isNaN(ptVal) || ptVal < 0 ? 0 : ptVal;
+      persistState();
+      const msg = document.getElementById("kycMsg");
+      msg.className = "msg ok";
+      msg.textContent = `${p.name} यांची KYC व PF (${p.pfPct}%)/ESIC (${p.esicPct}%)/PT (₹${p.ptAmount}) माहिती सेव्ह झाली.`;
+      renderKyc();
+      renderPayroll();
+    }
+
+    function addProduct() {
+      const comp = document.getElementById("prodCompany").value;
+      const name = document.getElementById("prodName").value.trim();
+      const paise = parseFloat(document.getElementById("prodPaise").value) || 0;
+      const msg = document.getElementById("prodMsg");
+      if (!name || paise <= 0) {
+        msg.className = "msg err";
+        msg.textContent = "प्रॉडक्ट नाव आणि पैशातील दर टाका.";
+        return;
+      }
+      state.products.push({ id: `PR_${Date.now()}`, company: comp, name, paise, active: true });
+      document.getElementById("prodName").value = "";
+      document.getElementById("prodPaise").value = "";
+      persistState();
+      msg.className = "msg ok";
+      msg.textContent = "नवीन प्रॉडक्ट जोडले गेले.";
+      renderProductsTable();
+      renderEntrySheet();
+    }
+
+    function editProductPaise(prodId) {
+      const pr = state.products.find(x => x.id === prodId);
+      if (!pr) return;
+      const nextVal = prompt(`${pr.name} साठी नवीन दर (पैशांमध्ये):`, pr.paise);
+      if (nextVal === null) return;
+      const num = parseFloat(nextVal);
+      if (isNaN(num) || num < 0) return;
+      pr.paise = num;
+      persistState();
+      renderProductsTable();
+      renderEntrySheet();
+    }
+
+    function toggleProductActive(prodId) {
+      const pr = state.products.find(x => x.id === prodId);
+      if (!pr) return;
+      pr.active = !pr.active;
+      persistState();
+      renderProductsTable();
+      renderEntrySheet();
+    }
+
+    function renderProductsTable() {
+      const comp = document.getElementById("prodCompany").value;
+      const tbody = document.getElementById("prodTableBody");
+      tbody.innerHTML = "";
+      state.products.filter(pr => pr.company === comp).forEach(pr => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${pr.company}</td>
+          <td>${pr.name}</td>
+          <td>${pr.paise} पैसे</td>
+          <td>₹${(pr.paise / 100).toFixed(2)}</td>
+          <td>${pr.active ? "चालू (Active)" : "बंद (Stopped)"}</td>
+          <td>
+            <button type="button" class="btn btn-sm btn-blue" onclick="editProductPaise('${pr.id}')">दर बदला</button>
+            <button type="button" class="btn btn-sm ${pr.active ? "btn-red" : "btn-green"}" onclick="toggleProductActive('${pr.id}')">${pr.active ? "बंद करा" : "चालू करा"}</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderIncrement() {
+      const sel = document.getElementById("incPerson");
+      const prev = sel.value;
+      sel.innerHTML = "";
+      state.people.forEach(p => {
+        const opt = document.createElement("option");
+        opt.value = p.id;
+        opt.textContent = `${p.company} — ${p.name}`;
+        if (p.id === prev) opt.selected = true;
+        sel.appendChild(opt);
+      });
+      loadIncrementForm();
+
+      const tbody = document.getElementById("incTableBody");
+      tbody.innerHTML = "";
+      state.people.forEach(p => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${p.company}</td>
+          <td>${p.name}</td>
+          <td>₹${p.shift12Rate ?? 822}</td>
+          <td>${p.lastIncrementDate || "-"}</td>
+          <td>${p.nextReviewDate || "-"}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function loadIncrementForm() {
+      const id = document.getElementById("incPerson").value;
+      const p = state.people.find(x => x.id === id);
+      if (p) document.getElementById("incNewRate").value = p.shift12Rate ?? 822;
+    }
+
+    function applyIncrement() {
+      const id = document.getElementById("incPerson").value;
+      const newRate = parseFloat(document.getElementById("incNewRate").value);
+      const incDate = document.getElementById("incDate").value || todayISO();
+      const p = state.people.find(x => x.id === id);
+      const msg = document.getElementById("incMsg");
+      if (!p || isNaN(newRate) || newRate <= 0) {
+        msg.className = "msg err";
+        msg.textContent = "कृपया योग्य १२-तास हजेरी दर टाका.";
+        return;
+      }
+      p.shift12Rate = newRate;
+      p.lastIncrementDate = incDate;
+      p.nextReviewDate = addMonthsISO(incDate, 4);
+      persistState();
+      msg.className = "msg ok";
+      msg.textContent = `${p.name} यांचा १२-तास हजेरी दर ₹${newRate} झाला आणि पुढची ४ महिन्यांची तारीख ${p.nextReviewDate} सेट केली.`;
+      renderIncrement();
+      renderEntrySheet();
+    }
+
+    function downloadCSV(rows, filename) {
+      const csv = "\uFEFF" + rows.map(r => r.map(v => `"${String(v ?? "").replace(/"/g, '""')}"`).join(",")).join("\n");
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    loadSavedState();
+    initAppUI();
+    pullCloudState(false);
+    setInterval(() => pullCloudState(false), 10000);
+  </script>
+</body>
+</html>
