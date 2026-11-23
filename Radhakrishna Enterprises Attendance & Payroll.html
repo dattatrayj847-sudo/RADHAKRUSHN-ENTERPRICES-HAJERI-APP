@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>राधाकृष्ण एंटरप्रायझेस — हजेरी बुक व पगार व्यवस्थापन</title>
+  
+  <!-- Bootstrap 5 CSS & FontAwesome -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --secondary: #475569;
+      --card-border: #e2e8f0;
+    }
+
+    body {
+      font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
+      background-color: #f1f5f9;
+      color: #0f172a;
+      min-height: 100vh;
+      margin: 0;
+      padding: 12px;
+    }
+
+    @media (min-width: 768px) {
+      body { padding: 20px; }
+    }
+
+    .main-wrapper {
+      max-width: 1650px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      border: 1px solid var(--card-border);
+      padding: 20px;
+    }
+
+    /* Login Overlay */
+    #loginOverlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 440px;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Navigation Tabs */
+    .nav-tabs-custom {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+
+    .nav-tabs-custom .tab-btn {
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 9px 15px;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-tabs-custom .tab-btn:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .nav-tabs-custom .tab-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary-dark);
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+    }
+
+    /* Cards & Tables */
+    .section-card {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+
+    .formula-banner {
+      background: #f0f9ff;
+      border-left: 4px solid var(--primary);
+      padding: 12px 16px;
+      border-radius: 0 10px 10px 0;
+      margin-bottom: 16px;
+    }
+
+    .table-responsive-custom {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      background: #fff;
+    }
+
+    .table-custom {
+      width: 100%;
+      margin-bottom: 0;
+      vertical-align: middle;
+      font-size: 13px;
+    }
+
+    .table-custom th {
+      background-color: #f8fafc;
+      color: #334155;
+      font-weight: 700;
+      white-space: nowrap;
+      border-bottom: 2px solid #cbd5e1;
+      padding: 10px 12px;
+    }
+
+    .table-custom td {
+      padding: 8px 12px;
+      white-space: nowrap;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .prod-slot-box {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 320px;
+    }
+
+    .prod-slot-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      background: #f8fafc;
+      padding: 4px 8px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .badge-company {
+      background: #e0f2fe;
+      color: #0369a1;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+    }
+
+    .toast-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 99999;
+    }
+
+    .input-sm-custom {
+      width: 90px;
+      padding: 4px 8px;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Role Login Modal Overlay -->
+  <div id="loginOverlay">
+    <div class="login-box">
+      <div class="text-center mb-4">
+        <div class="badge bg-primary-subtle text-primary fw-bold text-uppercase px-3 py-2 rounded-pill mb-2">
+          राधाकृष्ण एंटरप्रायझेस
+        </div>
+        <h4 class="fw-extrabold text-dark mb-1">प्रणाली लॉगिन (Login)</h4>
+        <p class="text-muted small">हजेरी व पगार व्यवस्थापन सिस्टम</p>
+      </div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="mb-3">
+          <label class="form-label font-bold text-secondary">लॉगिन प्रकार (Role Select)</label>
+          <select id="loginRoleSelect" class="form-select form-select-lg" onchange="toggleCompanySelectDisplay()">
+            <option value="admin">१. Admin Login (पूर्ण अधिकार)</option>
+            <option value="company">२. Company Login (फक्त एंट्री नोंद)</option>
+          </select>
+        </div>
+
+        <div class="mb-3" id="companySelectWrapper" style="display: none;">
+          <label class="form-label font-bold text-secondary">कंपनी निवडा (Select Company)</label>
+          <select id="loginCompanySelect" class="form-select"></select>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label font-bold text-secondary">पासवर्ड (Password)</label>
+          <div class="input-group">
+            <input type="password" id="loginPassword" class="form-control" placeholder="पासवर्ड टाका" required />
+            <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility()">
+              <i class="fa-solid fa-eye" id="togglePassIcon"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg w-100 font-bold shadow-sm">
+          <i class="fa-solid fa-right-to-bracket me-2"></i> लॉगिन करा
+        </button>
+        <div id="loginErrorMsg" class="text-danger font-bold text-center mt-3 small"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Main Application Container -->
+  <div id="appContainer" class="main-wrapper d-none">
+    
+    <!-- Top Bar Header -->
+    <div class="d-flex flex-wrap align-items-center justify-content-between pb-3 mb-3 border-bottom gap-2">
+      <div>
+        <h3 class="fw-bold text-slate-900 mb-0">
+          <i class="fa-solid fa-building-user text-primary me-2"></i>राधाकृष्ण एंटरप्रायझेस
+        </h3>
+        <span class="badge bg-success text-white mt-1" id="activeUserBadge">
+          <i class="fa-solid fa-user-shield me-1"></i> Admin (पूर्ण अधिकार)
+        </span>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-outline-primary btn-sm" onclick="openPasswordManagerModal()" id="btnPasswordMgr">
+          <i class="fa-solid fa-key me-1"></i> Passwords
+        </button>
+        <button class="btn btn-danger btn-sm font-bold" onclick="logout()">
+          <i class="fa-solid fa-power-off me-1"></i> Logout
+        </button>
+      </div>
+    </div>
+
+    <!-- Google Sheet Auto-Sync Bar -->
+    <div class="card bg-light border-0 mb-4 shadow-sm" id="syncBar">
+      <div class="card-body py-2 px-3">
+        <div class="row align-items-center g-2">
+          <div class="col-md-5">
+            <div class="input-group input-group-sm">
+              <span class="input-group-text bg-white fw-bold"><i class="fa-solid fa-table me-1 text-success"></i> Google Sheet Web App URL:</span>
+              <input type="url" id="webAppUrlInput" class="form-control" placeholder="https://script.google.com/macros/s/.../exec" onchange="saveSyncSettings()">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="d-flex align-items-center gap-2">
+              <span class="fw-bold small text-secondary">Auto-Sync:</span>
+              <select id="autoSyncToggle" class="form-select form-select-sm w-auto" onchange="saveSyncSettings()">
+                <option value="no">नाही (Off)</option>
+                <option value="yes">होय (Auto Save)</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4 text-end">
+            <button class="btn btn-sm btn-outline-success font-bold" onclick="manualSyncAllData()">
+              <i class="fa-solid fa-rotate me-1"></i> Sheet वर Sync करा
+            </button>
+            <span id="syncStatusBadge" class="badge bg-secondary ms-1">Not Connected</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Navigation (7 Handwritten Admin Tabs) -->
+    <div class="nav-tabs-custom" id="tabNavGroup">
+      <button class="tab-btn active" id="btnTab1" onclick="switchTab(1)">
+        <i class="fa-solid fa-calendar-check"></i> १) Regular Attendance
+      </button>
+      <button class="tab-btn" id="btnTab2" onclick="switchTab(2)">
+        <i class="fa-solid fa-user-plus"></i> २) Employee Add & Remove
+      </button>
+      <button class="tab-btn" id="btnTab3" onclick="switchTab(3)">
+        <i class="fa-solid fa-address-card"></i> ३) Worker / Supervisor Detail (KYC)
+      </button>
+      <button class="tab-btn" id="btnTab4" onclick="switchTab(4)">
+        <i class="fa-solid fa-pen-to-square"></i> ४) 12 Hours Rate Edit
+      </button>
+      <button class="tab-btn" id="btnTab5" onclick="switchTab(5)">
+        <i class="fa-solid fa-boxes-stacked"></i> ५) Company Product Add & Remove
+      </button>
+      <button class="tab-btn" id="btnTab6" onclick="switchTab(6)">
+        <i class="fa-solid fa-file-invoice-dollar"></i> ६) Hajeri Sheet Edit & Download
+      </button>
+      <button class="tab-btn" id="btnTab7" onclick="switchTab(7)">
+        <i class="fa-solid fa-building-columns"></i> ७) Bank Bulk Download
+      </button>
+    </div>
+
+    <!-- TAB 1: REGULAR ATTENDANCE -->
+    <div id="tabView1" class="tab-content-item">
+      <div class="row g-3 mb-3">
+        <div class="col-md-3">
+          <label class="form-label fw-bold">तारीख (Date Select)</label>
+          <input type="date" id="attDateInput" class="form-control" onchange="renderAttendanceTab()" />
+        </div>
+        <div class="col-md-4">
+          <label class="form-label fw-bold">कंपनी निवडा (Select Company)</label>
+          <select id="attCompanySelect" class="form-select" onchange="renderAttendanceTab()"></select>
+        </div>
+      </div>
+
+      <div class="formula-banner">
+        <h6 class="fw-bold text-dark mb-1" id="formulaTitle">कंपनी हजेरी सूत्र</h6>
+        <p class="small text-secondary mb-0" id="formulaDesc">माहिती लोड होत आहे...</p>
+      </div>
+
+      <div class="table-responsive-custom mb-3">
+        <table class="table table-custom">
+          <thead id="attTableHeader"></thead>
+          <tbody id="attTableBody"></tbody>
+        </table>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center">
+        <button class="btn btn-success font-bold px-4 shadow-sm" onclick="saveCurrentAttendance()">
+          <i class="fa-solid fa-floppy-disk me-2"></i> हजेरी सेव्ह करा (नावे लिस्ट मधून निघतील)
+        </button>
+        <span class="text-muted small" id="pendingAttCountInfo"></span>
+      </div>
+    </div>
+
+    <!-- TAB 2: EMPLOYEE ADD & REMOVE -->
+    <div id="tabView2" class="tab-content-item d-none">
+      <div class="section-card">
+        <h5 class="fw-bold text-dark mb-3">
+          <i class="fa-solid fa-user-plus text-primary me-2"></i>नवीन कर्मचारी किंवा सुपरवायझर नोंदणी
+        </h5>
+        <form id="addEmpForm" onsubmit="handleAddEmployee(event)">
+          <div class="row g-3">
+            <div class="col-md-3">
+              <label class="form-label fw-bold">Company Name</label>
+              <select id="addEmpCompany" class="form-select" required></select>
+            </div>
+            <div class="col-md-2">
+              <label class="form-label fw-bold">Type</label>
+              <select id="addEmpType" class="form-select" onchange="toggleSupervisorSelect()">
+                <option value="Worker">Worker</option>
+                <option value="Supervisor">Supervisor</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label fw-bold">Supervisor V</label>
+              <select id="addEmpSupervisor" class="form-select"></select>
+            </div>
+            <div class="col-md-2">
+              <label class="form-label fw-bold">Gender</label>
+              <select id="addEmpGender" class="form-select">
+                <option value="Male">Male (पुरुष)</option>
+                <option value="Female">Female (स्त्री)</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-bold">Name (संपूर्ण नाव)</label>
+              <input type="text" id="addEmpName" class="form-control" placeholder="उदा. रमेश सिताराम शिंदे" required />
+            </div>
+            <div class="col-md-3">
+              <label class="form-label fw-bold">Per 12 Hours Salary Rate (₹)</label>
+              <input type="number" id="addEmpRate" class="form-control" value="822" step="0.01" required />
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+              <button type="submit" class="btn btn-primary fw-bold w-100">
+                <i class="fa-solid fa-plus me-1"></i> + Add Employee
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="table-responsive-custom">
+        <table class="table table-custom">
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Type</th>
+              <th>Supervisor</th>
+              <th>Gender</th>
+              <th>Name</th>
+              <th>12 Hours Rate</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="empListTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 3: WORKER / SUPERVISOR DETAIL (KYC) -->
+    <div id="tabView3" class="tab-content-item d-none">
+      <div class="section-card">
+        <h5 class="fw-bold text-dark mb-3">
+          <i class="fa-solid fa-address-card text-primary me-2"></i>कर्मचारी KYC माहिती भरा व एडिट करा
+        </h5>
+        <form id="kycForm" onsubmit="handleSaveKycForm(event)">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label fw-bold">कर्मचारी निवडा (Select Worker/Supervisor)</label>
+              <select id="kycSelectEmp" class="form-select" onchange="loadEmployeeKycToForm(this.value)" required></select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-bold">Adhaar Number</label>
+              <input type="text" id="kycAdhar" class="form-control" placeholder="12 अंकी आधार क्रमांक" maxlength="12" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-bold">PAN Number</label>
+              <input type="text" id="kycPan" class="form-control text-uppercase" placeholder="PAN कार्ड नंबर" maxlength="10" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-bold">Bank Account Number</label>
+              <input type="text" id="kycBank" class="form-control" placeholder="बँक खाते क्रमांक" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-bold">IFSC Code</label>
+              <input type="text" id="kycIfsc" class="form-control text-uppercase" placeholder="IFSC कोड" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-bold">UAN Number</label>
+              <input type="text" id="kycUan" class="form-control" placeholder="12 अंकी UAN नंबर" />
+            </div>
+            <div class="col-12 text-end">
+              <button type="submit" class="btn btn-success font-bold px-4">
+                <i class="fa-solid fa-floppy-disk me-1"></i> KYC Details Save करा
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="row g-3 mb-3">
+        <div class="col-md-4">
+          <label class="form-label fw-bold">कंपनी फिल्टर (Company Filter)</label>
+          <select id="kycCompanyFilter" class="form-select" onchange="renderKycTab()"></select>
+        </div>
+      </div>
+
+      <div class="table-responsive-custom">
+        <table class="table table-custom">
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Employee Name</th>
+              <th>Adhaar Number</th>
+              <th>PAN Number</th>
+              <th>Bank Account No.</th>
+              <th>UAN</th>
+              <th>IFSC Code</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="kycTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 4: 12 HOURS RATE EDIT -->
+    <div id="tabView4" class="tab-content-item d-none">
+      <div class="row g-3 mb-3">
+        <div class="col-md-4">
+          <label class="form-label fw-bold">कंपनी फिल्टर (Select Company)</label>
+          <select id="rateEditCompanyFilter" class="form-select" onchange="renderRateEditTab()"></select>
+        </div>
+      </div>
+
+      <div class="table-responsive-custom">
+        <table class="table table-custom">
+          <thead>
+            <tr>
+              <th>Employee Name</th>
+              <th>Type</th>
+              <th>Current 12h Rate (₹)</th>
+              <th>New 12h Salary Rate (₹)</th>
+              <th>Update Rate</th>
+            </tr>
+          </thead>
+          <tbody id="rateEditTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 5: COMPANY PRODUCT ADD & REMOVE -->
+    <div id="tabView5" class="tab-content-item d-none">
+      <div class="section-card">
+        <h5 class="fw-bold text-dark mb-3">
+          <i class="fa-solid fa-boxes-stacked text-primary me-2"></i>प्रॉडक्ट व पीस रेट जोडा (Som Auto / Pawana)
+        </h5>
+        <form id="addProductForm" onsubmit="handleAddProduct(event)">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label fw-bold">Company Name</label>
+              <select id="addProdCompany" class="form-select" onchange="renderProductsTab()"></select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-bold">Product Name</label>
+              <input type="text" id="addProdName" class="form-control" placeholder="उदा. Bracket Plate L-Type" required />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-bold">Rate in Paise (70 Paise = 70)</label>
+              <input type="number" id="addProdPaise" class="form-control" placeholder="70" step="0.01" required />
+            </div>
+            <div class="col-12 text-end">
+              <button type="submit" class="btn btn-success fw-bold px-4">
+                <i class="fa-solid fa-plus me-1"></i> + Add Product
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="table-responsive-custom">
+        <table class="table table-custom">
+          <thead>
+            <tr>
+              <th>Company Name</th>
+              <th>Product Name</th>
+              <th>Rate (Paise)</th>
+              <th>Rate (₹)</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="productListTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 6: HAJERI SHEET EDIT AND DOWNLOAD -->
+    <div id="tabView6" class="tab-content-item d-none">
+      <div class="row g-3 mb-3">
+        <div class="col-md-4">
+          <label class="form-label fw-bold">कंपनी निवडा (Select Company)</label>
+          <select id="hajeriSheetCompany" class="form-select" onchange="renderHajeriSheetTab()"></select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label fw-bold">महिना निवडा (Select Month)</label>
+          <input type="month" id="hajeriSheetMonth" class="form-control" onchange="renderHajeriSheetTab()" />
+        </div>
+      </div>
+
+      <div class="table-responsive-custom mb-3">
+        <table class="table table-custom">
+          <thead>
+            <tr>
+              <th>Employee Name</th>
+              <th>Gross (₹)</th>
+              <th>Basic (60%)</th>
+              <th>PF (12%)</th>
+              <th>PT (₹)</th>
+              <th>ESIC (0.75%)</th>
+              <th>Ded 1 (Advance)</th>
+              <th>Ded 2 (Room Rent)</th>
+              <th>Ded 3 (Kirana)</th>
+              <th>Ded 4 (Dress/Shoes)</th>
+              <th>Total Deduction</th>
+              <th>Net Pay (₹)</th>
+            </tr>
+          </thead>
+          <tbody id="hajeriSheetTableBody"></tbody>
+        </table>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center">
+        <button class="btn btn-dark fw-bold px-4 shadow-sm" onclick="downloadHajeriSheetCSV()">
+          <i class="fa-solid fa-file-excel me-2 text-success"></i> Download Month Hajeri Excel (CSV)
+        </button>
+        <span class="text-muted small">* Maharashtra PT & standard PF/ESIC applied automatically</span>
+      </div>
+    </div>
+
+    <!-- TAB 7: BANK BULK DOWNLOAD -->
+    <div id="tabView7" class="tab-content-item d-none">
+      <div class="row g-3 mb-3">
+        <div class="col-md-4">
+          <label class="form-label fw-bold">कंपनी निवडा (Select Company)</label>
+          <select id="bankBulkCompany" class="form-select" onchange="renderBankBulkTab()"></select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label fw-bold">महिना निवडा (Select Month)</label>
+          <input type="month" id="bankBulkMonth" class="form-control" onchange="renderBankBulkTab()" />
+        </div>
+      </div>
+
+      <div class="table-responsive-custom mb-3">
+        <table class="table table-custom">
+          <thead>
+            <tr>
+              <th>Brancode</th>
+              <th>Date</th>
+              <th>IFSC Code</th>
+              <th>Net Pay Amount</th>
+              <th>Account Number</th>
+              <th>Beneficiary Name</th>
+              <th>Export Status</th>
+            </tr>
+          </thead>
+          <tbody id="bankBulkTableBody"></tbody>
+        </table>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center">
+        <button class="btn btn-dark fw-bold px-4 shadow-sm" onclick="downloadBankBulkCSV()">
+          <i class="fa-solid fa-download me-2 text-warning"></i> Bank Bulk Payment Excel Download (CSV)
+        </button>
+        <span class="badge bg-light text-dark border">Batch Safe Export Enabled</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Admin Company Passwords Modal -->
+  <div class="modal fade" id="passwordModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold"><i class="fa-solid fa-key text-warning me-2"></i>कंपनी पासवर्ड मॅनेजर</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-sm align-middle">
+            <thead>
+              <tr>
+                <th>Company</th>
+                <th>Current Password</th>
+                <th>New Password</th>
+                <th>Save</th>
+              </tr>
+            </thead>
+            <tbody id="companyPasswordTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Constants & Initial Database Structure
+    const DEFAULT_COMPANIES = ["Som Auto", "Pawana", "AEL", "Endurance L20", "Endurance 226", "Suvarna"];
+    const STORAGE_KEY = "rk_enterprises_master_db_v3";
+
+    const DEFAULT_PASSWORDS = {
+      admin: "admin123",
+      "Som Auto": "som123",
+      "AEL": "ael123",
+      "Endurance L20": "l20123",
+      "Endurance 226": "e226123",
+      "Pawana": "pawana123",
+      "Suvarna": "suvarna123"
+    };
+
+    function getDefaultDb() {
+      return {
+        passwords: { ...DEFAULT_PASSWORDS },
+        settings: { webAppUrl: "", autoSync: "no" },
+        employees: [
+          { id: "emp_101", company: "Som Auto", type: "Worker", supervisor: "संजय सुर्वे", gender: "Male", name: "रमेश सीताराम जाधव", rate: 822, adhar: "458912345678", pan: "ABCDE1234F", bank: "998877665512", uan: "100987654321", ifsc: "SBIN0001234" },
+          { id: "emp_102", company: "Som Auto", type: "Worker", supervisor: "संजय सुर्वे", gender: "Female", name: "सुनीता मारुती कुलकर्णी", rate: 822, adhar: "", pan: "", bank: "", uan: "", ifsc: "" },
+          { id: "emp_103", company: "Som Auto", type: "Supervisor", supervisor: "-", gender: "Male", name: "संजय सुर्वे", rate: 1000, adhar: "123456789012", pan: "SMPK99887L", bank: "776655443322", uan: "100987654323", ifsc: "ICIC0003456" },
+          { id: "emp_104", company: "AEL", type: "Worker", supervisor: "-", gender: "Male", name: "अंकेश तुकाराम पवार", rate: 822, adhar: "654321987654", pan: "PKJH88771M", bank: "665544332211", uan: "100987654324", ifsc: "MAHB0000456" },
+          { id: "emp_105", company: "Endurance L20", type: "Worker", supervisor: "-", gender: "Male", name: "गणेश पांडुरंग शिंदे", rate: 900, adhar: "", pan: "", bank: "", uan: "", ifsc: "" }
+        ],
+        products: {
+          "Som Auto": [
+            { id: "prod_1", name: "Bracket Plate L-Type", paise: 70 },
+            { id: "prod_2", name: "Cover Socket Big", paise: 150 }
+          ],
+          "Pawana": [
+            { id: "prod_3", name: "Pin Lock Shaft", paise: 120 }
+          ]
+        },
+        attendanceLogs: {},
+        deductions: {},
+        exportedBatches: {}
+      };
+    }
+
+    let db = loadAppDb();
+    let currentUser = null;
+
+    function loadAppDb() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) return JSON.parse(raw);
+      } catch (e) { console.error("Storage load error:", e); }
+      return getDefaultDb();
+    }
+
+    function saveAppDb() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+    }
+
+    // Toast Notifications
+    function showToast(msg, type = "success") {
+      const container = document.getElementById("toastContainer");
+      const toastEl = document.createElement("div");
+      toastEl.className = `toast align-items-center text-white bg-${type === 'success' ? 'success' : 'danger'} border-0 show`;
+      toastEl.setAttribute("role", "alert");
+      toastEl.innerHTML = `
+        <div class="d-flex">
+          <div class="toast-body font-bold"><i class="fa-solid fa-circle-check me-2"></i>${msg}</div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+      `;
+      container.appendChild(toastEl);
+      setTimeout(() => toastEl.remove(), 3500);
+    }
+
+    // Login & Authentication
+    function toggleCompanySelectDisplay() {
+      const role = document.getElementById("loginRoleSelect").value;
+      document.getElementById("companySelectWrapper").style.display = role === "company" ? "block" : "none";
+    }
+
+    function populateLoginCompanies() {
+      const sel = document.getElementById("loginCompanySelect");
+      sel.innerHTML = "";
+      DEFAULT_COMPANIES.forEach(c => {
+        const opt = document.createElement("option");
+        opt.value = c;
+        opt.textContent = c;
+        sel.appendChild(opt);
+      });
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const role = document.getElementById("loginRoleSelect").value;
+      const pass = document.getElementById("loginPassword").value.trim();
+      const errEl = document.getElementById("loginErrorMsg");
+      errEl.textContent = "";
+
+      if (role === "admin") {
+        if (pass === (db.passwords.admin || "admin123")) {
+          currentUser = { role: "admin", companyName: "All Companies" };
+          startSession();
+        } else {
+          errEl.textContent = "Admin पासवर्ड चुकीचा आहे!";
+        }
+      } else {
+        const comp = document.getElementById("loginCompanySelect").value;
+        const validPass = db.passwords[comp] || DEFAULT_PASSWORDS[comp];
+        if (pass === validPass) {
+          currentUser = { role: "company", companyName: comp };
+          startSession();
+        } else {
+          errEl.textContent = `${comp} साठी पासवर्ड चुकीचा आहे!`;
+        }
+      }
+    }
+
+    function togglePasswordVisibility() {
+      const inp = document.getElementById("loginPassword");
+      const icon = document.getElementById("togglePassIcon");
+      if (inp.type === "password") {
+        inp.type = "text";
+        icon.className = "fa-solid fa-eye-slash";
+      } else {
+        inp.type = "password";
+        icon.className = "fa-solid fa-eye";
+      }
+    }
+
+    function startSession() {
+      document.getElementById("loginOverlay").classList.add("d-none");
+      document.getElementById("appContainer").classList.remove("d-none");
+
+      const badge = document.getElementById("activeUserBadge");
+      const passBtn = document.getElementById("btnPasswordMgr");
+
+      if (currentUser.role === "admin") {
+        badge.className = "badge bg-success text-white mt-1";
+        badge.innerHTML = `<i class="fa-solid fa-user-shield me-1"></i> Role: Admin (सर्व अधिकार)`;
+        passBtn.classList.remove("d-none");
+        showAdminTabs(true);
+      } else {
+        badge.className = "badge bg-info text-dark mt-1";
+        badge.innerHTML = `<i class="fa-solid fa-building me-1"></i> Company: ${currentUser.companyName}`;
+        passBtn.classList.add("d-none");
+        showAdminTabs(false);
+      }
+
+      document.getElementById("webAppUrlInput").value = db.settings.webAppUrl || "";
+      document.getElementById("autoSyncToggle").value = db.settings.autoSync || "no";
+      updateSyncStatusBadge();
+
+      populateDropdowns();
+
+      const today = new Date().toISOString().slice(0, 10);
+      const month = today.slice(0, 7);
+      document.getElementById("attDateInput").value = today;
+      document.getElementById("hajeriSheetMonth").value = month;
+      document.getElementById("bankBulkMonth").value = month;
+
+      if (currentUser.role === "company") {
+        document.getElementById("attCompanySelect").value = currentUser.companyName;
+      }
+
+      switchTab(1);
+    }
+
+    function showAdminTabs(isAdmin) {
+      [2, 3, 4, 5, 6, 7].forEach(t => {
+        const btn = document.getElementById(`btnTab${t}`);
+        if (isAdmin) btn.classList.remove("d-none");
+        else btn.classList.add("d-none");
+      });
+    }
+
+    function logout() {
+      currentUser = null;
+      document.getElementById("loginForm").reset();
+      document.getElementById("appContainer").classList.add("d-none");
+      document.getElementById("loginOverlay").classList.remove("d-none");
+    }
+
+    function populateDropdowns() {
+      const companySelects = ["attCompanySelect", "addEmpCompany", "kycCompanyFilter", "rateEditCompanyFilter", "addProdCompany", "hajeriSheetCompany", "bankBulkCompany"];
+      companySelects.forEach(id => {
+        const sel = document.getElementById(id);
+        if (!sel) return;
+        sel.innerHTML = "";
+        const list = currentUser && currentUser.role === "company" ? [currentUser.companyName] : DEFAULT_COMPANIES;
+        list.forEach(c => {
+          const opt = document.createElement("option");
+          opt.value = c;
+          opt.textContent = c;
+          sel.appendChild(opt);
+        });
+      });
+
+      populateSupervisorDropdown();
+      populateKycEmployeeDropdown();
+    }
+
+    function populateSupervisorDropdown() {
+      const sel = document.getElementById("addEmpSupervisor");
+      if (!sel) return;
+      sel.innerHTML = `<option value="-">- No Supervisor -</option>`;
+      const sups = db.employees.filter(e => e.type === "Supervisor");
+      sups.forEach(s => {
+        const opt = document.createElement("option");
+        opt.value = s.name;
+        opt.textContent = `${s.name} (${s.company})`;
+        sel.appendChild(opt);
+      });
+    }
+
+    function toggleSupervisorSelect() {
+      const type = document.getElementById("addEmpType").value;
+      document.getElementById("addEmpSupervisor").disabled = (type === "Supervisor");
+    }
+
+    function switchTab(num) {
+      for (let i = 1; i <= 7; i++) {
+        const view = document.getElementById(`tabView${i}`);
+        const btn = document.getElementById(`btnTab${i}`);
+        if (view) view.classList.add("d-none");
+        if (btn) btn.classList.remove("active");
+      }
+      document.getElementById(`tabView${num}`).classList.remove("d-none");
+      document.getElementById(`btnTab${num}`).classList.add("active");
+
+      if (num === 1) renderAttendanceTab();
+      if (num === 2) renderEmployeesTab();
+      if (num === 3) renderKycTab();
+      if (num === 4) renderRateEditTab();
+      if (num === 5) renderProductsTab();
+      if (num === 6) renderHajeriSheetTab();
+      if (num === 7) renderBankBulkTab();
+    }
+
+    // ==========================================
+    // TAB 1: REGULAR ATTENDANCE LOGIC
+    // ==========================================
+    function renderAttendanceTab() {
+      const comp = document.getElementById("attCompanySelect").value;
+      const date = document.getElementById("attDateInput").value;
+      const fTitle = document.getElementById("formulaTitle");
+      const fDesc = document.getElementById("formulaDesc");
+      const thead = document.getElementById("attTableHeader");
+      const tbody = document.getElementById("attTableBody");
+
+      const pendingEmps = db.employees.filter(e => {
+        if (e.company !== comp) return false;
+        const key = `${date}_${comp}_${e.id}`;
+        return !db.attendanceLogs[key];
+      });
+
+      document.getElementById("pendingAttCountInfo").textContent = `प्रलंबित कर्मचारी संख्या: ${pendingEmps.length}`;
+
+      if (comp === "Som Auto" || comp === "Pawana") {
+        fTitle.textContent = `${comp} हजेरी सूत्र (Piece Rate + Hours)`;
+        fDesc.textContent = `सूत्र: Gross = (हजेरी तास × (12h दर / 12)) + SUM(प्रॉडक्ट संख्या × प्रॉडक्ट दर). Max 6 slots.`;
+        thead.innerHTML = `
+          <tr>
+            <th>Employee Name</th>
+            <th>Hours (तास)</th>
+            <th>Products Produced (Max 6)</th>
+            <th>Row Gross (₹)</th>
+          </tr>
+        `;
+      } else if (comp === "AEL") {
+        fTitle.textContent = `AEL हजेरी सूत्र (12h Shift Tracking)`;
+        fDesc.textContent = `सूत्र: Gross = (हजेरी तास × (12h दर / 12)). (उदा. 12 तास = पूर्ण दर).`;
+        thead.innerHTML = `
+          <tr>
+            <th>Employee Name</th>
+            <th>Daily Hours (12, 0, etc.)</th>
+            <th>Row Gross (₹)</th>
+          </tr>
+        `;
+      } else {
+        fTitle.textContent = `${comp} हजेरी सूत्र (Monthly Entry Summary)`;
+        fDesc.textContent = `सूत्र: Hours = Enter × 8 | OT = Enter OT | Gross = ((Hours + OT) × (12h Rate / 12)).`;
+        thead.innerHTML = `
+          <tr>
+            <th>Employee Name</th>
+            <th>Hours Input (Enter × 8)</th>
+            <th>OT Input (Enter OT)</th>
+            <th>Row Gross (₹)</th>
+          </tr>
+        `;
+      }
+
+      tbody.innerHTML = "";
+
+      if (pendingEmps.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="text-center text-muted py-4 font-bold">या तारखेसाठी (${date}) सर्व कर्मचाऱ्यांची हजेरी नोंद पूर्ण झालेली आहे.</td></tr>`;
+        return;
+      }
+
+      pendingEmps.forEach(emp => {
+        const tr = document.createElement("tr");
+        tr.setAttribute("data-empid", emp.id);
+        tr.setAttribute("data-rate", emp.rate);
+
+        if (comp === "Som Auto" || comp === "Pawana") {
+          const prods = db.products[comp] || [];
+          const optsHtml = prods.map(p => `<option value="${p.id}" data-paise="${p.paise}">${p.name} (${p.paise}पैसे)</option>`).join("");
+          
+          tr.innerHTML = `
+            <td><strong>${emp.name}</strong> <br><small class="text-muted">${emp.type}</small></td>
+            <td><input type="number" class="form-control input-sm-custom att-hrs" value="12" step="0.5" oninput="recalcAttRow(this)" /></td>
+            <td>
+              <div class="prod-slot-box">
+                <div class="prod-slot-row">
+                  <select class="form-select form-select-sm prod-select" onchange="recalcAttRow(this)">
+                    <option value="">-- Select Product --</option>
+                    ${optsHtml}
+                  </select>
+                  <input type="number" class="form-control input-sm-custom prod-qnt" placeholder="Qty" value="0" oninput="recalcAttRow(this)" />
+                </div>
+              </div>
+              <button type="button" class="btn btn-link btn-sm p-0 font-bold mt-1 text-decoration-none" onclick="addProdSlotToRow(this)">
+                + Add Product Slot
+              </button>
+            </td>
+            <td class="fw-bold text-success row-gross">₹${emp.rate.toFixed(2)}</td>
+          `;
+        } else if (comp === "AEL") {
+          tr.innerHTML = `
+            <td><strong>${emp.name}</strong> <br><small class="text-muted">${emp.type}</small></td>
+            <td><input type="number" class="form-control input-sm-custom att-hrs" value="12" step="0.5" oninput="recalcAttRow(this)" /></td>
+            <td class="fw-bold text-success row-gross">₹${emp.rate.toFixed(2)}</td>
+          `;
+        } else {
+          tr.innerHTML = `
+            <td><strong>${emp.name}</strong> <br><small class="text-muted">${emp.type}</small></td>
+            <td><input type="number" class="form-control input-sm-custom end-hrs" value="30" step="1" oninput="recalcAttRow(this)" /></td>
+            <td><input type="number" class="form-control input-sm-custom end-ot" value="0" step="1" oninput="recalcAttRow(this)" /></td>
+            <td class="fw-bold text-success row-gross">₹0.00</td>
+          `;
+        }
+        tbody.appendChild(tr);
+        recalcAttRow(tr.querySelector("input"));
+      });
+    }
+
+    function addProdSlotToRow(btn) {
+      const container = btn.previousElementSibling;
+      if (container.children.length >= 6) {
+        showToast("जास्तीत जास्त ६ slots जोडता येतात!", "danger");
+        return;
+      }
+      const comp = document.getElementById("attCompanySelect").value;
+      const prods = db.products[comp] || [];
+      const optsHtml = prods.map(p => `<option value="${p.id}" data-paise="${p.paise}">${p.name} (${p.paise}पैसे)</option>`).join("");
+
+      const slotRow = document.createElement("div");
+      slotRow.className = "prod-slot-row";
+      slotRow.innerHTML = `
+        <select class="form-select form-select-sm prod-select" onchange="recalcAttRow(this)">
+          <option value="">-- Select Product --</option>
+          ${optsHtml}
+        </select>
+        <input type="number" class="form-control input-sm-custom prod-qnt" placeholder="Qty" value="0" oninput="recalcAttRow(this)" />
+      `;
+      container.appendChild(slotRow);
+    }
+
+    function recalcAttRow(el) {
+      if (!el) return;
+      const tr = el.closest("tr");
+      if (!tr) return;
+
+      const comp = document.getElementById("attCompanySelect").value;
+      const rate = parseFloat(tr.getAttribute("data-rate")) || 0;
+
+      if (comp === "Som Auto" || comp === "Pawana") {
+        const hrs = parseFloat(tr.querySelector(".att-hrs").value) || 0;
+        let prodGross = 0;
+        const prods = db.products[comp] || [];
+        tr.querySelectorAll(".prod-slot-row").forEach(row => {
+          const pid = row.querySelector(".prod-select").value;
+          const qty = parseFloat(row.querySelector(".prod-qnt").value) || 0;
+          const matched = prods.find(p => p.id === pid);
+          if (matched) prodGross += (qty * matched.paise) / 100;
+        });
+        const gross = (hrs * (rate / 12)) + prodGross;
+        tr.querySelector(".row-gross").textContent = `₹${gross.toFixed(2)}`;
+      } else if (comp === "AEL") {
+        const hrs = parseFloat(tr.querySelector(".att-hrs").value) || 0;
+        const gross = hrs * (rate / 12);
+        tr.querySelector(".row-gross").textContent = `₹${gross.toFixed(2)}`;
+      } else {
+        const hrsInput = parseFloat(tr.querySelector(".end-hrs").value) || 0;
+        const otInput = parseFloat(tr.querySelector(".end-ot").value) || 0;
+        const gross = (hrsInput * 8 + otInput) * (rate / 12);
+        tr.querySelector(".row-gross").textContent = `₹${gross.toFixed(2)}`;
+      }
+    }
+
+    function saveCurrentAttendance() {
+      const comp = document.getElementById("attCompanySelect").value;
+      const date = document.getElementById("attDateInput").value;
+      const rows = document.querySelectorAll("#attTableBody tr");
+
+      if (rows.length === 0 || rows[0].querySelector("td[colspan]")) {
+        showToast("सेव्ह करण्यासाठी कोणतीही प्रलंबित नोंद नाही!", "danger");
+        return;
+      }
+
+      let count = 0;
+      rows.forEach(tr => {
+        const empId = tr.getAttribute("data-empid");
+        if (!empId) return;
+
+        const rate = parseFloat(tr.getAttribute("data-rate")) || 0;
+        let record = { date, company: comp, empId, rate };
+
+        if (comp === "Som Auto" || comp === "Pawana") {
+          record.hours = parseFloat(tr.querySelector(".att-hrs").value) || 0;
+          record.products = [];
+          tr.querySelectorAll(".prod-slot-row").forEach(row => {
+            const pid = row.querySelector(".prod-select").value;
+            const qty = parseFloat(row.querySelector(".prod-qnt").value) || 0;
+            if (pid && qty > 0) record.products.push({ pid, qty });
+          });
+        } else if (comp === "AEL") {
+          record.hours = parseFloat(tr.querySelector(".att-hrs").value) || 0;
+        } else {
+          record.hrsInput = parseFloat(tr.querySelector(".end-hrs").value) || 0;
+          record.otInput = parseFloat(tr.querySelector(".end-ot").value) || 0;
+        }
+
+        const key = `${date}_${comp}_${empId}`;
+        db.attendanceLogs[key] = record;
+        count++;
+      });
+
+      saveAppDb();
+      showToast(`${count} कर्मचाऱ्यांची हजेरी सेव्ह झाली व नावे यादीतून काढली!`);
+      triggerAutoSyncIfEnabled("Daily_Attendance_Sync");
+      renderAttendanceTab();
+    }
+
+    // ==========================================
+    // TAB 2: EMPLOYEE ADD & REMOVE
+    // ==========================================
+    function handleAddEmployee(e) {
+      e.preventDefault();
+      const comp = document.getElementById("addEmpCompany").value;
+      const type = document.getElementById("addEmpType").value;
+      const sup = type === "Supervisor" ? "-" : document.getElementById("addEmpSupervisor").value;
+      const gender = document.getElementById("addEmpGender").value;
+      const name = document.getElementById("addEmpName").value.trim();
+      const rate = parseFloat(document.getElementById("addEmpRate").value) || 822;
+
+      const newEmp = {
+        id: "emp_" + Date.now(),
+        company: comp,
+        type,
+        supervisor: sup,
+        gender,
+        name,
+        rate,
+        adhar: "", pan: "", bank: "", uan: "", ifsc: ""
+      };
+
+      db.employees.push(newEmp);
+      saveAppDb();
+      showToast(`${name} नवीन नाव जोडले गेले!`);
+      document.getElementById("addEmpForm").reset();
+      populateSupervisorDropdown();
+      populateKycEmployeeDropdown();
+      renderEmployeesTab();
+    }
+
+    function renderEmployeesTab() {
+      const tbody = document.getElementById("empListTableBody");
+      tbody.innerHTML = "";
+      db.employees.forEach(emp => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td><span class="badge-company">${emp.company}</span></td>
+          <td>${emp.type}</td>
+          <td>${emp.supervisor}</td>
+          <td>${emp.gender}</td>
+          <td><strong>${emp.name}</strong></td>
+          <td>₹${emp.rate.toFixed(2)}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-danger font-bold" onclick="removeEmployee('${emp.id}')">
+              <i class="fa-solid fa-trash me-1"></i> Remove
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function removeEmployee(id) {
+      if (!confirm("नक्की हे नाव काढून टाकायचे आहे का?")) return;
+      db.employees = db.employees.filter(e => e.id !== id);
+      saveAppDb();
+      showToast("कर्मचारी यशस्वीरित्या काढून टाकला!");
+      populateSupervisorDropdown();
+      populateKycEmployeeDropdown();
+      renderEmployeesTab();
+    }
+
+    // ==========================================
+    // TAB 3: WORKER / SUPERVISOR DETAIL (KYC FORM & LIST)
+    // ==========================================
+    function populateKycEmployeeDropdown() {
+      const sel = document.getElementById("kycSelectEmp");
+      if (!sel) return;
+      sel.innerHTML = `<option value="">-- कर्मचारी निवडा --</option>`;
+      db.employees.forEach(e => {
+        const opt = document.createElement("option");
+        opt.value = e.id;
+        opt.textContent = `${e.name} (${e.company})`;
+        sel.appendChild(opt);
+      });
+    }
+
+    function loadEmployeeKycToForm(empId) {
+      if (!empId) {
+        document.getElementById("kycForm").reset();
+        return;
+      }
+      const emp = db.employees.find(e => e.id === empId);
+      if (emp) {
+        document.getElementById("kycAdhar").value = emp.adhar || "";
+        document.getElementById("kycPan").value = emp.pan || "";
+        document.getElementById("kycBank").value = emp.bank || "";
+        document.getElementById("kycIfsc").value = emp.ifsc || "";
+        document.getElementById("kycUan").value = emp.uan || "";
+      }
+    }
+
+    function handleSaveKycForm(e) {
+      e.preventDefault();
+      const empId = document.getElementById("kycSelectEmp").value;
+      if (!empId) {
+        showToast("कृपया कर्मचारी निवडा!", "danger");
+        return;
+      }
+
+      const emp = db.employees.find(e => e.id === empId);
+      if (emp) {
+        emp.adhar = document.getElementById("kycAdhar").value.trim();
+        emp.pan = document.getElementById("kycPan").value.trim().toUpperCase();
+        emp.bank = document.getElementById("kycBank").value.trim();
+        emp.ifsc = document.getElementById("kycIfsc").value.trim().toUpperCase();
+        emp.uan = document.getElementById("kycUan").value.trim();
+        
+        saveAppDb();
+        showToast(`${emp.name} ची KYC माहिती सेव्ह झाली व पेंडिंग यादीतून काढून टाकली!`);
+        document.getElementById("kycForm").reset();
+        renderKycTab();
+      }
+    }
+
+    function editKycEntry(empId) {
+      document.getElementById("kycSelectEmp").value = empId;
+      loadEmployeeKycToForm(empId);
+      window.scrollTo({ top: 200, behavior: "smooth" });
+    }
+
+    function renderKycTab() {
+      const comp = document.getElementById("kycCompanyFilter").value;
+      const tbody = document.getElementById("kycTableBody");
+      tbody.innerHTML = "";
+
+      const emps = db.employees.filter(e => e.company === comp);
+
+      if (emps.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="text-center text-muted py-4 font-bold">कोणतेही कर्मचारी उपलब्ध नाहीत.</td></tr>`;
+        return;
+      }
+
+      emps.forEach(emp => {
+        const isComplete = emp.adhar && emp.pan && emp.bank && emp.uan && emp.ifsc;
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${isComplete ? '<span class="badge bg-success">Complete</span>' : '<span class="badge bg-danger">Pending</span>'}</td>
+          <td><strong>${emp.name}</strong></td>
+          <td>${emp.adhar || '<span class="text-muted">-</span>'}</td>
+          <td>${emp.pan || '<span class="text-muted">-</span>'}</td>
+          <td>${emp.bank || '<span class="text-muted">-</span>'}</td>
+          <td>${emp.uan || '<span class="text-muted">-</span>'}</td>
+          <td>${emp.ifsc || '<span class="text-muted">-</span>'}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-primary font-bold" onclick="editKycEntry('${emp.id}')">
+              <i class="fa-solid fa-pen-to-square me-1"></i> Edit
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // ==========================================
+    // TAB 4: 12 HOURS RATE EDIT
+    // ==========================================
+    function renderRateEditTab() {
+      const comp = document.getElementById("rateEditCompanyFilter").value;
+      const tbody = document.getElementById("rateEditTableBody");
+      tbody.innerHTML = "";
+
+      const emps = db.employees.filter(e => e.company === comp);
+      emps.forEach(emp => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td><strong>${emp.name}</strong></td>
+          <td>${emp.type}</td>
+          <td class="fw-bold">₹${emp.rate.toFixed(2)}</td>
+          <td><input type="number" class="form-control form-control-sm input-sm-custom new-rate-val" value="${emp.rate}" step="0.01" /></td>
+          <td>
+            <button class="btn btn-sm btn-primary font-bold" onclick="updateEmpRate('${emp.id}', this)">
+              <i class="fa-solid fa-arrows-rotate me-1"></i> Update Rate
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function updateEmpRate(id, btn) {
+      const tr = btn.closest("tr");
+      const val = parseFloat(tr.querySelector(".new-rate-val").value) || 0;
+      const emp = db.employees.find(e => e.id === id);
+      if (emp) {
+        emp.rate = val;
+        saveAppDb();
+        showToast(`${emp.name} चा नवीन १२ तास दर (₹${val}) अपडेट झाला!`);
+        renderRateEditTab();
+      }
+    }
+
+    // ==========================================
+    // TAB 5: COMPANY PRODUCT ADD & REMOVE
+    // ==========================================
+    function handleAddProduct(e) {
+      e.preventDefault();
+      const comp = document.getElementById("addProdCompany").value;
+      const name = document.getElementById("addProdName").value.trim();
+      const paise = parseFloat(document.getElementById("addProdPaise").value) || 0;
+
+      if (!db.products[comp]) db.products[comp] = [];
+      db.products[comp].push({ id: "prod_" + Date.now(), name, paise });
+      saveAppDb();
+      showToast(`${comp} साठी प्रॉडक्ट (${name}) जोडले गेले!`);
+      document.getElementById("addProductForm").reset();
+      renderProductsTab();
+    }
+
+    function renderProductsTab() {
+      const comp = document.getElementById("addProdCompany").value;
+      const tbody = document.getElementById("productListTableBody");
+      tbody.innerHTML = "";
+
+      const prods = db.products[comp] || [];
+      prods.forEach(p => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td><span class="badge-company">${comp}</span></td>
+          <td><strong>${p.name}</strong></td>
+          <td>${p.paise} पैसे</td>
+          <td class="fw-bold">₹${(p.paise / 100).toFixed(2)}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-danger font-bold" onclick="removeProduct('${comp}', '${p.id}')">
+              <i class="fa-solid fa-trash me-1"></i> Remove
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function removeProduct(comp, id) {
+      if (!confirm("हा प्रॉडक्ट काढून टाकायचा आहे का?")) return;
+      db.products[comp] = db.products[comp].filter(p => p.id !== id);
+      saveAppDb();
+      showToast("प्रॉडक्ट काढून टाकला!");
+      renderProductsTab();
+    }
+
+    // ==========================================
+    // TAB 6: HAJERI SHEET EDIT & DOWNLOAD
+    // ==========================================
+    function calculateEmployeeMonthlyPayroll(emp, month) {
+      let gross = emp.rate * 26;
+      const basic = gross * 0.60;
+      const pf = basic * 0.12;
+
+      let pt = 0;
+      if (emp.gender === "Male") {
+        if (gross > 10000) pt = (month.endsWith("-02") ? 300 : 200);
+      } else {
+        if (gross > 25000) pt = (month.endsWith("-02") ? 300 : 200);
+      }
+
+      const esic = gross * 0.0075;
+      const dedKey = `${emp.id}_${month}`;
+      const userDed = db.deductions[dedKey] || { ded1: 0, ded2: 0, ded3: 0, ded4: 0 };
+      const totalDed = pf + pt + esic + userDed.ded1 + userDed.ded2 + userDed.ded3 + userDed.ded4;
+      const netPay = gross - totalDed;
+
+      return { gross, basic, pf, pt, esic, userDed, totalDed, netPay };
+    }
+
+    function renderHajeriSheetTab() {
+      const comp = document.getElementById("hajeriSheetCompany").value;
+      const month = document.getElementById("hajeriSheetMonth").value;
+      const tbody = document.getElementById("hajeriSheetTableBody");
+      tbody.innerHTML = "";
+
+      const emps = db.employees.filter(e => e.company === comp);
+      emps.forEach(emp => {
+        const p = calculateEmployeeMonthlyPayroll(emp, month);
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td><strong>${emp.name}</strong> <br><small class="text-muted">${emp.gender}</small></td>
+          <td class="fw-bold">₹${p.gross.toFixed(2)}</td>
+          <td>₹${p.basic.toFixed(2)}</td>
+          <td>₹${p.pf.toFixed(2)}</td>
+          <td>₹${p.pt.toFixed(2)}</td>
+          <td>₹${p.esic.toFixed(2)}</td>
+          <td><input type="number" class="form-control form-control-sm input-sm-custom d1" value="${p.userDed.ded1}" onchange="saveDeductionRow('${emp.id}', '${month}', this)" placeholder="Advance" /></td>
+          <td><input type="number" class="form-control form-control-sm input-sm-custom d2" value="${p.userDed.ded2}" onchange="saveDeductionRow('${emp.id}', '${month}', this)" placeholder="Room" /></td>
+          <td><input type="number" class="form-control form-control-sm input-sm-custom d3" value="${p.userDed.ded3}" onchange="saveDeductionRow('${emp.id}', '${month}', this)" placeholder="Kirana" /></td>
+          <td><input type="number" class="form-control form-control-sm input-sm-custom d4" value="${p.userDed.ded4}" onchange="saveDeductionRow('${emp.id}', '${month}', this)" placeholder="Dress" /></td>
+          <td class="text-danger font-bold">₹${p.totalDed.toFixed(2)}</td>
+          <td class="text-success font-bold">₹${p.netPay.toFixed(2)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function saveDeductionRow(empId, month, inputEl) {
+      const tr = inputEl.closest("tr");
+      const d1 = parseFloat(tr.querySelector(".d1").value) || 0;
+      const d2 = parseFloat(tr.querySelector(".d2").value) || 0;
+      const d3 = parseFloat(tr.querySelector(".d3").value) || 0;
+      const d4 = parseFloat(tr.querySelector(".d4").value) || 0;
+
+      const dedKey = `${empId}_${month}`;
+      db.deductions[dedKey] = { ded1: d1, ded2: d2, ded3: d3, ded4: d4 };
+      saveAppDb();
+      renderHajeriSheetTab();
+    }
+
+    function downloadHajeriSheetCSV() {
+      const comp = document.getElementById("hajeriSheetCompany").value;
+      const month = document.getElementById("hajeriSheetMonth").value;
+      const emps = db.employees.filter(e => e.company === comp);
+
+      const rows = [
+        ["Name", "Gender", "Gross", "Basic (60%)", "PF (12%)", "PT", "ESIC (0.75%)", "Ded1 (Advance)", "Ded2 (Room)", "Ded3 (Kirana)", "Ded4 (Dress)", "Total Ded", "Net Pay"]
+      ];
+
+      emps.forEach(emp => {
+        const p = calculateEmployeeMonthlyPayroll(emp, month);
+        rows.push([
+          emp.name, emp.gender, p.gross.toFixed(2), p.basic.toFixed(2), p.pf.toFixed(2),
+          p.pt.toFixed(2), p.esic.toFixed(2), p.userDed.ded1, p.userDed.ded2, p.userDed.ded3, p.userDed.ded4,
+          p.totalDed.toFixed(2), p.netPay.toFixed(2)
+        ]);
+      });
+
+      downloadCsvFile(`Hajeri_Sheet_${comp}_${month}.csv`, rows);
+    }
+
+    // ==========================================
+    // TAB 7: BANK BULK DOWNLOAD
+    // ==========================================
+    function renderBankBulkTab() {
+      const comp = document.getElementById("bankBulkCompany").value;
+      const month = document.getElementById("bankBulkMonth").value;
+      const tbody = document.getElementById("bankBulkTableBody");
+      tbody.innerHTML = "";
+
+      const today = new Date().toISOString().slice(0, 10);
+      const emps = db.employees.filter(e => e.company === comp);
+
+      emps.forEach(emp => {
+        const p = calculateEmployeeMonthlyPayroll(emp, month);
+        const batchKey = `${emp.id}_${month}`;
+        const isExported = db.exportedBatches[batchKey];
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>98</td>
+          <td>${today}</td>
+          <td>${emp.ifsc || "-"}</td>
+          <td class="fw-bold text-success">₹${p.netPay.toFixed(2)}</td>
+          <td>${emp.bank || "-"}</td>
+          <td><strong>${emp.name}</strong></td>
+          <td>
+            ${isExported ? '<span class="badge bg-success"><i class="fa-solid fa-check me-1"></i>Downloaded</span>' : '<span class="badge bg-warning text-dark">Pending Export</span>'}
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function downloadBankBulkCSV() {
+      const comp = document.getElementById("bankBulkCompany").value;
+      const month = document.getElementById("bankBulkMonth").value;
+      const today = new Date().toISOString().slice(0, 10);
+      const emps = db.employees.filter(e => e.company === comp);
+
+      const rows = [
+        ["Brancode", "Date", "IFSC Code", "Net Pay Amount", "Account Number", "Beneficiary Name"]
+      ];
+
+      emps.forEach(emp => {
+        const p = calculateEmployeeMonthlyPayroll(emp, month);
+        rows.push([
+          "98", today, emp.ifsc || "", p.netPay.toFixed(2), emp.bank || "", emp.name
+        ]);
+        const batchKey = `${emp.id}_${month}`;
+        db.exportedBatches[batchKey] = true;
+      });
+
+      saveAppDb();
+      renderBankBulkTab();
+      downloadCsvFile(`Bank_Bulk_Payment_${comp}_${month}.csv`, rows);
+    }
+
+    function downloadCsvFile(filename, rows) {
+      const csvContent = "\uFEFF" + rows.map(r => r.map(c => `"${c}"`).join(",")).join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+      showToast("Excel (CSV) फाइल डाऊनलोड झाली!");
+    }
+
+    // ==========================================
+    // GOOGLE SHEETS WEB APP AUTO-SYNC LOGIC
+    // ==========================================
+    function saveSyncSettings() {
+      db.settings.webAppUrl = document.getElementById("webAppUrlInput").value.trim();
+      db.settings.autoSync = document.getElementById("autoSyncToggle").value;
+      saveAppDb();
+      updateSyncStatusBadge();
+      showToast("Google Sheet Sync सेटिंग सेव्ह झाली!");
+    }
+
+    function updateSyncStatusBadge() {
+      const badge = document.getElementById("syncStatusBadge");
+      if (db.settings.webAppUrl) {
+        badge.className = "badge bg-success ms-1";
+        badge.textContent = db.settings.autoSync === "yes" ? "Auto-Sync Ready" : "Manual Sync Connected";
+      } else {
+        badge.className = "badge bg-secondary ms-1";
+        badge.textContent = "Not Connected";
+      }
+    }
+
+    function triggerAutoSyncIfEnabled(actionType) {
+      if (db.settings.autoSync === "yes" && db.settings.webAppUrl) {
+        manualSyncAllData(actionType);
+      }
+    }
+
+    function manualSyncAllData(action = "Manual_Sync") {
+      const url = db.settings.webAppUrl || document.getElementById("webAppUrlInput").value.trim();
+      if (!url) {
+        showToast("कृपया प्रथम Google Apps Script Web App URL टाका!", "danger");
+        return;
+      }
+
+      const payload = {
+        action: action,
+        timestamp: new Date().toISOString(),
+        employees: db.employees,
+        products: db.products,
+        attendanceLogs: db.attendanceLogs
+      };
+
+      fetch(url, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+      .then(() => {
+        showToast("Google Sheet वर डेटा पाठवला गेला!");
+      })
+      .catch(err => {
+        console.error("Sync error:", err);
+        showToast("Sync करताना त्रुटी आली!", "danger");
+      });
+    }
+
+    // ==========================================
+    // ADMIN PASSWORD MANAGER MODAL LOGIC
+    // ==========================================
+    function openPasswordManagerModal() {
+      const tbody = document.getElementById("companyPasswordTableBody");
+      tbody.innerHTML = "";
+
+      const keys = ["admin", ...DEFAULT_COMPANIES];
+      keys.forEach(key => {
+        const pass = db.passwords[key] || DEFAULT_PASSWORDS[key] || "123";
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td><strong>${key}</strong></td>
+          <td><code>${pass}</code></td>
+          <td><input type="text" class="form-control form-control-sm new-pass-inp" placeholder="नवीन पासवर्ड" /></td>
+          <td>
+            <button class="btn btn-sm btn-success font-bold" onclick="saveCompanyPassword('${key}', this)">
+              Save
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const modal = new bootstrap.Modal(document.getElementById("passwordModal"));
+      modal.show();
+    }
+
+    function saveCompanyPassword(key, btn) {
+      const tr = btn.closest("tr");
+      const newPass = tr.querySelector(".new-pass-inp").value.trim();
+      if (!newPass) {
+        showToast("पासवर्ड रिकामा ठेवता येणार नाही!", "danger");
+        return;
+      }
+      db.passwords[key] = newPass;
+      saveAppDb();
+      showToast(`${key} चा पासवर्ड अपडेट झाला!`);
+      openPasswordManagerModal();
+    }
+
+    window.onload = function() {
+      populateLoginCompanies();
+    };
+  </script>
+</body>
+</html>
